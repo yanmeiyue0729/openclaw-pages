@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>相亲这样做，让他主动追求你（二）</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #fdf6f0;
+    font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    color: #3d2b1f;
+    width: 900px;
+    margin: 0 auto;
+    padding: 0 0 60px;
+  }
+
+  /* ── 顶部封面 ── */
+  .cover {
+    background: linear-gradient(145deg, #f9e4e4 0%, #fce8d5 40%, #f3dff0 100%);
+    padding: 60px 60px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute; top: -60px; right: -60px;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: rgba(255,182,193,0.25);
+  }
+  .cover::after {
+    content: '';
+    position: absolute; bottom: -40px; left: -40px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(216,180,254,0.2);
+  }
+  .cover-tag {
+    display: inline-block;
+    background: #e8a0b4;
+    color: #fff;
+    font-size: 12px;
+    letter-spacing: 2px;
+    padding: 4px 16px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .cover h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #c0556b;
+    line-height: 1.4;
+    margin-bottom: 12px;
+    position: relative; z-index: 1;
+  }
+  .cover .subtitle {
+    font-size: 15px;
+    color: #9b6e7e;
+    letter-spacing: 1px;
+  }
+  .cover .deco-line {
+    width: 60px; height: 3px;
+    background: linear-gradient(to right, #e8a0b4, #c0a0e8);
+    border-radius: 2px;
+    margin: 20px auto 0;
+  }
+
+  /* ── 章节容器 ── */
+  .section { margin: 32px 40px 0; }
+
+  /* ── 章节标题 ── */
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .section-title h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #3d2b1f;
+  }
+  .section-title .line {
+    flex: 1; height: 1.5px;
+    background: linear-gradient(to right, currentColor, transparent);
+    opacity: 0.2;
+  }
+  .section-num {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* ── 网格布局 ── */
+  .two-col   { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+  /* ── 通用卡片 ── */
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 18px;
+    border: 1.5px solid var(--accent);
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--accent);
+  }
+  .card h3 {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 9px;
+  }
+  .card p, .card li {
+    font-size: 12.5px;
+    line-height: 1.85;
+    color: #6b5048;
+  }
+  .card ul { padding-left: 16px; }
+  .card li { margin-bottom: 3px; }
+
+  /* ── 横幅洞察 ── */
+  .insight {
+    background: var(--light);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    padding: 14px 18px;
+    margin-bottom: 14px;
+    font-size: 12.5px;
+    line-height: 1.85;
+    color: #5c3d30;
+  }
+  .insight strong {
+    color: var(--dark);
+    display: block;
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+
+  /* ── 引言框 ── */
+  .quote {
+    background: linear-gradient(135deg, #fff5f7, #fdf0fc);
+    border-radius: 16px;
+    padding: 18px 22px;
+    margin-bottom: 14px;
+    border: 1px solid #f0c0d0;
+    font-size: 12.5px;
+    line-height: 1.9;
+    color: #7a4060;
+  }
+
+  /* ── 爱好等级条 ── */
+  .tier {
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px 18px;
+    border-left: 5px solid var(--accent);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .tier-badge {
+    background: var(--light);
+    color: var(--dark);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 10px;
+    white-space: nowrap;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+  .tier p {
+    font-size: 12.5px;
+    line-height: 1.8;
+    color: #6b5048;
+  }
+
+  /* ── 分割线 ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, #e8c0cc, transparent);
+    margin: 28px 40px;
+  }
+
+  /* ── 颜色主题变量 ── */
+  .pink    { --accent:#e8a0b4; --light:#fdf0f3; --dark:#c0556b; }
+  .peach   { --accent:#f4a97f; --light:#fef3ec; --dark:#c8693a; }
+  .purple  { --accent:#c0a0e8; --light:#f5f0fc; --dark:#7c5cb8; }
+  .lavender{ --accent:#b0b0e8; --light:#f0f0fc; --dark:#5c5cb8; }
+  .rose    { --accent:#e897b0; --light:#fdf0f5; --dark:#b84d72; }
+
+  .hl { font-weight: 700; color: var(--dark); }
+
+  /* ── 底部签名 ── */
+  .footer {
+    text-align: center;
+    padding: 40px 0 20px;
+    color: #c0a0b0;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  /* ── 下载按钮 ── */
+  #dl-btn {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    background: linear-gradient(135deg, #e8a0b4, #c0a0e8);
+    color: #fff;
+    border: none;
+    border-radius: 28px;
+    padding: 12px 24px;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(200,120,160,0.4);
+    z-index: 999;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ 封面 ══ -->
+<div class="cover">
+  <div class="cover-tag">💕 蕊芯赋能 · 情感干货</div>
+  <h1>相亲这样做<br>让他主动追求你（二）</h1>
+  <p class="subtitle">基本信息读心术 × 优质男判断手册 × 相亲实战指南</p>
+  <div class="deco-line"></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     一、基本信息，通过聊天就可以掌握
+     ══════════════════════════════════════════ -->
+<div class="section pink">
+  <div class="section-title">
+    <div class="section-num" style="background:#e8a0b4;">一</div>
+    <h2>基本信息，通过聊天就可以掌握</h2>
+    <div class="line" style="color:#e8a0b4;"></div>
+  </div>
+
+  <!-- 家乡 -->
+  <div style="font-size:13px;font-weight:700;color:#c0556b;margin-bottom:12px;">📍 家乡——了解他的成长土壤</div>
+  <div class="three-col" style="margin-bottom:14px;">
+    <div class="card pink">
+      <h3>农村</h3>
+      <p>一般父母是务农的，或者外出打工。</p>
+      <br>
+      <p>可以了解：父母在哪里居住，目前是否还在工作（在工作的前提就可以知道做什么的了）。家境推测：农村、小镇、城市，有没有变化和迁徙。</p>
+    </div>
+    <div class="card pink">
+      <h3>县城、小镇</h3>
+      <p>父母是有单位上班，还是打散工，还是做小生意。</p>
+      <br>
+      <p>小镇青年——后续了解他是怎么来到城市的。</p>
+    </div>
+    <div class="card pink">
+      <h3>城市</h3>
+      <p>父母是单位职工，还是打散工，做生意。</p>
+      <br>
+      <p>家境如何，看城市居住区域。读的什么小学、中学，从小在城市读好学校的孩子，意味着学习要靠家里铺垫。</p>
+    </div>
+  </div>
+
+  <div class="insight pink">
+    <strong>💡 为什么要了解家乡？</strong>
+    能轻松自在的回答你关于小时候家里事情的男生，原生家庭多数都不会太差，家里人之间是懂得沟通和交流的。<span class="hl">能沟通和交流是很重要的伴侣素养。</span>
+  </div>
+
+  <div style="height:6px;"></div>
+
+  <!-- 童年经历 -->
+  <div style="font-size:13px;font-weight:700;color:#c0556b;margin-bottom:12px;">🌱 童年经历——性格的来源</div>
+  <p style="font-size:12.5px;color:#9b6e7e;margin-bottom:12px;">可以了解：家庭氛围、父母感情、对他是否严厉、兄弟姐妹情况、他的自信程度如何、性格底色。</p>
+
+  <div class="two-col" style="margin-bottom:14px;">
+    <div class="card pink" style="border-left:none;">
+      <h3>① 家庭氛围与父母感情</h3>
+      <p>你要观察这个男生他的家庭氛围好不好。如果一个男生他的家庭整体氛围都是积极的、温和融洽的，他的父母在面对家里变化和外部压力的时候，第一反应不是指责，不是抱怨，也没有把家庭和家人当做压力和麻烦，而是积极的调整自己去解决问题；那么个他会在生活中以后，大概率他会信用心，也会尝试解决问题和应对挑战，这对于他个人的生活和感情都能有较强的控制感。</p>
+    </div>
+    <div class="card pink">
+      <h3>② 自信度与性格底色</h3>
+      <p>他会是一个安全型的伴侣，他不会患得患失，不会情绪多变，他不会因为来索取过度的安全感，也不会因为你想要个人空间，想独处个哦就觉得自己已经无从承担，但是你在无理取闹的时候，他会更多的时候，他会把对于女友在受伤害行为上，说善继续，解决问题，也可以和心的沟通来解决。</p>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-bottom:14px;">
+    <div class="card pink">
+      <h3>③ 与父母亲密度高：家庭氛围亲密</h3>
+      <p>家亲密度比较高，会经常聚天，主动表达感情；他会在他的圈中，一段正常的亲密关系，他应该是主动沟通，主动表达爱，生活的分大小小的事情，所以如果他恋爱，那么大概率不用你要求他可以把安全感给的很好，这是一种渐移默化的固定模式，他们在一起，他那会给你一种很高的情感互动体验，你和他的每一次相处都能由衷的感到幸福。</p>
+    </div>
+    <div class="card pink">
+      <h3>④ 与父亲亲密度低：疏离的倾向</h3>
+      <p>家亲密度比较低的男生关于情感有时比较刻板，回避疏离的倾向。你可以发现在你和他聊天的时候，好像他的话都都是在报数，而不是在沟通，你想要和他建立心理感，他下意识会选择回避，很难建立深层次的沟通，那他以后也很难建立起两个人之间的亲密连接了。</p>
+    </div>
+  </div>
+
+  <!-- 兄弟姐妹 -->
+  <div class="insight pink">
+    <strong>👫 有兄弟姐妹，且发展的都不差</strong>
+    这个家族的生命力和持续发展力比较强。<br><br>
+    看男生在兄弟姐妹里实力如何：相对较强，会比较自信，可能存在需要帮扶者的情况。<br>
+    相对弱的，会单一些，比自己父母或兄弟姐妹就职的男生会自卑。
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════
+     二、兴趣爱好
+     ══════════════════════════════════════════ -->
+<div class="section peach">
+  <div class="section-title">
+    <div class="section-num" style="background:#f4a97f;">二</div>
+    <h2>兴趣爱好——看消费层级与生活品质</h2>
+    <div class="line" style="color:#f4a97f;"></div>
+  </div>
+
+  <p style="font-size:12.5px;color:#9b6e7e;margin-bottom:16px;">一般兴趣爱好跟收入高低相关，从爱好可以大致判断消费能力与生活品味。</p>
+
+  <div class="tier peach">
+    <span class="tier-badge">最不花钱的</span>
+    <p>打游戏、看网络小说、刷免费视频网站</p>
+  </div>
+
+  <div class="tier" style="--accent:#aad4a0;--light:#f0faf0;--dark:#3a7a3a;">
+    <span class="tier-badge">稍微花钱的</span>
+    <p>看电影、跟朋友AA吃饭聊天不喝酒，或者喝比较便宜的酒</p>
+  </div>
+
+  <div class="tier" style="--accent:#f4c07f;--light:#fef8ec;--dark:#c8793a;">
+    <span class="tier-badge">花钱中等的</span>
+    <p>看演出、演唱会、展览、大型健身房健身无私教、国内、东南亚国家旅游</p>
+  </div>
+
+  <div class="tier" style="--accent:#e8a0b4;--light:#fdf0f3;--dark:#c0556b;">
+    <span class="tier-badge">花钱中上等的</span>
+    <p>冲浪、滑雪、收藏、大型健身房有私教，旅行住五星级酒店吃米其林餐厅、私人会所</p>
+  </div>
+
+  <div class="tier" style="--accent:#c0a0e8;--light:#f5f0fc;--dark:#7c5cb8;">
+    <span class="tier-badge">烧钱的兴趣爱好</span>
+    <p>品酒、雪茄、潜水、高尔夫、考飞机驾照、奢侈品艺术品收藏、玉器古玩、私人健身房</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════
+     三、如何判断一个男人是否优质
+     ══════════════════════════════════════════ -->
+<div class="section purple">
+  <div class="section-title">
+    <div class="section-num" style="background:#c0a0e8;">三</div>
+    <h2>如何判断一个男人是否优质</h2>
+    <div class="line" style="color:#c0a0e8;"></div>
+  </div>
+
+  <!-- 言谈 -->
+  <div style="font-size:13px;font-weight:700;color:#7c5cb8;margin-bottom:10px;">🗣️ 言谈</div>
+  <div class="card purple" style="margin-bottom:14px;">
+    <h3>说话算话，做的比说的多</h3>
+    <p>比如嘴上说不在意钱，花钱的时候却比较小气，或者会计较交往期间自己花钱比较多。</p>
+    <br>
+    <p>▪ <span class="hl">言行一致</span>——嘴上说想尽快结婚，行动上拖拉、不积极推进。</p>
+  </div>
+
+  <!-- 人品 -->
+  <div style="font-size:13px;font-weight:700;color:#7c5cb8;margin-bottom:10px;">⚖️ 人品</div>
+  <div class="three-col" style="margin-bottom:14px;">
+    <div class="card purple">
+      <h3>如何对待低于自己的人</h3>
+      <p>服务员、出租车司机、混的不如自己的朋友——观察他的态度，体现真实人品。</p>
+    </div>
+    <div class="card purple">
+      <h3>如何对待父母</h3>
+      <p>对父母不好的人也不会对你好好。</p>
+      <br>
+      <p><span class="hl">孝顺和妈宝男——一样可怕。</span></p>
+      <br>
+      <p>是否有自己的主见，最终怎么做由自己决定。</p>
+    </div>
+    <div class="card purple">
+      <h3>看他是否懂感恩</h3>
+      <p>聊天他怎么说公司、怎么说社会、怎么说朋友——拒绝对所有人都不好、不懂感恩的人。</p>
+    </div>
+  </div>
+
+  <!-- 自律 -->
+  <div style="font-size:13px;font-weight:700;color:#7c5cb8;margin-bottom:10px;">🏋️ 自律</div>
+  <div class="three-col" style="margin-bottom:14px;">
+    <div class="card lavender">
+      <h3>体型管理</h3>
+      <p>身材管理体现自律程度与生活习惯。</p>
+    </div>
+    <div class="card lavender">
+      <h3>时间管理</h3>
+      <p>是否规律作息，是否珍惜时间，体现执行力。</p>
+    </div>
+    <div class="card lavender">
+      <h3>生活作息</h3>
+      <p>日常生活是否有规律有节奏。</p>
+    </div>
+  </div>
+
+  <div class="insight purple" style="margin-bottom:14px;">
+    <strong>⚠️ 关于自律的关键提醒</strong>
+    不自律的后果可能短时无法显示，婚姻是几十年的，不自律的积累可能成为生活中制约伴侣。
+  </div>
+
+  <!-- 承压能力 -->
+  <div style="font-size:13px;font-weight:700;color:#7c5cb8;margin-bottom:10px;">🛡️ 承压能力</div>
+  <div class="card rose" style="margin-bottom:14px;">
+    <h3>承压能力好，遇到事情会扛得住</h3>
+    <p>面对挑战和困难能否保持冷静，积极解决而非逃避或崩溃，这是伴侣非常重要的素质。</p>
+  </div>
+
+  <!-- 跟钱的关系 -->
+  <div style="font-size:13px;font-weight:700;color:#7c5cb8;margin-bottom:10px;">💸 跟钱的关系</div>
+  <div class="two-col" style="margin-bottom:14px;">
+    <div class="card peach">
+      <h3>😤 很焦虑</h3>
+      <p>对金钱和财务状态高度焦虑，情绪容易受到财务波动影响，生活中难以平静。</p>
+    </div>
+    <div class="card peach">
+      <h3>📈 喜欢投机</h3>
+      <p>偏好高风险投机行为，对"一夜暴富"有执念，缺乏稳健的财务规划意识。</p>
+    </div>
+  </div>
+
+  <div class="card purple" style="margin-bottom:14px;">
+    <h3>💰 跟钱最好的关系（理想状态）</h3>
+    <p>最好的是有稳定的收入来源，薪资或者公司稳定发展，自己有规划，在能力范围内花钱；不盲目追大、不急功近利（充满气氛赚到钱也会花，要能引导去），能力能满足自己的欲望。</p>
+    <br>
+    <p style="font-size:12px;color:#b0a0c0;">简言之：<span class="hl">稳定 + 有规划 + 量入为出 + 持续提升</span></p>
+  </div>
+
+  <!-- 爱父母 -->
+  <div style="font-size:13px;font-weight:700;color:#7c5cb8;margin-bottom:10px;">❤️ 爱父母</div>
+  <div class="insight purple">
+    <strong>孝顺与独立判断并存</strong>
+    懂得感恩孝顺父母，同时又有自己独立的判断力，不被过度控制，最终由自己做决定——这才是健康的亲子关系。
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════
+     四、相亲实战·快速筛选框架
+     ══════════════════════════════════════════ -->
+<div class="section rose">
+  <div class="section-title">
+    <div class="section-num" style="background:#e897b0;">四</div>
+    <h2>相亲实战 · 快速筛选框架</h2>
+    <div class="line" style="color:#e897b0;"></div>
+  </div>
+
+  <div class="three-col" style="margin-bottom:18px;">
+    <div class="card pink">
+      <h3>🏡 第一看<br>家庭背景</h3>
+      <ul>
+        <li>家乡 → 成长环境推测</li>
+        <li>父母职业 → 家境判断</li>
+        <li>家庭氛围 → 情感模式</li>
+        <li>兄弟姐妹 → 家族发展力</li>
+        <li>与父母亲密度</li>
+      </ul>
+    </div>
+    <div class="card peach">
+      <h3>🎯 第二看<br>爱好消费层级</h3>
+      <ul>
+        <li>免费爱好 → 低消费层</li>
+        <li>AA聚餐看电影 → 普通层</li>
+        <li>演出旅游 → 中等层</li>
+        <li>私教米其林 → 中上层</li>
+        <li>高尔夫飞行驾照 → 高净值</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3>⭐ 第三看<br>优质度五维</h3>
+      <ul>
+        <li>言行一致（说话算话）</li>
+        <li>人品（对待弱者/父母/感恩）</li>
+        <li>自律（体型/时间/作息）</li>
+        <li>承压能力（扛得住）</li>
+        <li>跟钱的关系（稳健规划）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="quote">
+    💕 <strong>金句收藏：</strong><br>
+    相亲不是找完美的人，是找<strong style="color:#c0556b;">适合一起走下去的人</strong>。<br>
+    读懂他的原生家庭、看穿他的消费层级、判断他的自律程度——<br>
+    这三步做好，优质男人就在你眼前。
+  </div>
+</div>
+
+<!-- 底部 -->
+<div class="footer">🌸 蕊芯赋能 · 女性情感成长 🌸</div>
+
+<!-- 下载按钮 -->
+<button id="dl-btn" onclick="downloadPage()">📥 保存长图</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+async function downloadPage() {
+  const btn = document.getElementById('dl-btn');
+  btn.style.display = 'none';
+  try {
+    const canvas = await html2canvas(document.body, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#fdf6f0',
+      scrollY: 0,
+      windowWidth: 900,
+      width: 900
+    });
+    const link = document.createElement('a');
+    link.download = '相亲指南-让他主动追求你二.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  } finally {
+    btn.style.display = '';
+  }
+}
+</script>
+</body>
+</html>
