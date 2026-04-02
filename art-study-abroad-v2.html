@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>艺术留学 · 小红书内容灵感报告 v2.0</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#07090f;--bg2:#0c1020;--bg3:#090d18;--bg4:#060810;
+  --border:#131929;--border2:#1a2440;
+  --text:#e8efff;--muted:#9fade0;--faint:#6b7db0;
+  --purple:#7c6fff;--amber:#f59e0b;--pink:#ec4899;--green:#10b981;--blue:#3b82f6;--red:#ff6b6b;--teal:#06b6d4;
+}
+body{background:var(--bg);font-family:'PingFang SC','Helvetica Neue',Arial,sans-serif;color:var(--text);width:1200px;margin:0 auto;padding:32px 0 100px;}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#1e2840;border-radius:3px;}
+
+/* ── HEADER ── */
+.hd{display:flex;align-items:flex-start;gap:18px;padding:0 40px 28px;border-bottom:1px solid var(--border);margin-bottom:28px;}
+.hd-icon{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--purple),var(--blue));display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 4px 20px rgba(124,111,255,.4);}
+.hd-info h1{font-size:20px;font-weight:900;color:#fff;letter-spacing:.5px;}
+.hd-info p{font-size:11px;#9fade0;margin-top:3px;}
+.badges{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+.badge{border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;}
+.bg{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);color:#10b981;}
+.bp{background:rgba(124,111,255,.1);border:1px solid rgba(124,111,255,.25);color:#9b8fff;}
+.bb{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);color:#60a5fa;}
+.hd-meta{margin-left:auto;text-align:right;font-size:11px;#8a9bc4;line-height:2.1;flex-shrink:0;}
+.v-chip{display:inline-block;background:rgba(124,111,255,.15);border:1px solid var(--purple);color:var(--purple);border-radius:20px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:4px;}
+
+/* ── NAV ── */
+.nav{display:flex;gap:0;padding:0 40px;margin-bottom:28px;background:var(--bg3);border-radius:10px;margin-left:40px;margin-right:40px;overflow-x:auto;}
+.nav-btn{padding:11px 16px;font-size:11px;font-weight:600;color:#c0cce8;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;background:none;border-left:none;border-right:none;border-top:none;flex-shrink:0;}
+.nav-btn.active{color:#fff;border-bottom-color:var(--purple);}
+.nav-btn:hover:not(.active){color:#fff;}
+
+/* ── SECTIONS ── */
+.sec{padding:0 40px;margin-bottom:32px;display:none;}
+.sec.active{display:block;}
+
+/* section header */
+.sh{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+.sh-bar{width:3px;height:14px;border-radius:2px;flex-shrink:0;}
+.sh-label{font-size:10px;font-weight:700;letter-spacing:3px;#8a9bc4;text-transform:uppercase;}
+.sh-tag{font-size:9px;font-weight:600;color:#10b981;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:2px 8px;letter-spacing:0;}
+.sh-count{font-size:9px;#9fade0;background:var(--bg3);border-radius:8px;padding:2px 8px;border:1px solid var(--border);}
+
+/* ── STEP 1: TOPIC GRID ── */
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.tc{background:var(--bg2);border-radius:12px;padding:16px 18px;border:1px solid var(--border);position:relative;overflow:hidden;cursor:pointer;transition:border-color .2s,transform .15s;}
+.tc:hover{transform:translateY(-2px);}
+.tc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--tcg);}
+.tc-name{font-size:13px;font-weight:800;color:#e0e8ff;margin-bottom:10px;}
+.tc-row{display:flex;gap:14px;margin-bottom:8px;}
+.tc-stat{flex:1;}
+.tc-n{font-size:18px;font-weight:900;color:var(--tcc);line-height:1;}
+.tc-n.crown{font-size:20px;}
+.tc-l{font-size:9px;color:#8a9bc4;margin-top:2px;}
+.tc-bar-bg{height:3px;background:var(--border2);border-radius:2px;margin-bottom:7px;overflow:hidden;}
+.tc-bar-fill{height:3px;border-radius:2px;background:var(--tcg);}
+.tc-foot{font-size:10px;color:#9fade0;}
+.tc-foot .hi{font-weight:700;}
+.hi-r{color:var(--red);}
+.hi-a{color:var(--amber);}
+.hi-g{color:var(--green);}
+/* topic colors */
+.t-pu{--tcg:linear-gradient(90deg,var(--purple),#a89fff);--tcc:var(--purple);}
+.t-am{--tcg:linear-gradient(90deg,var(--amber),#fbbf24);--tcc:var(--amber);}
+.t-pk{--tcg:linear-gradient(90deg,var(--pink),#f472b6);--tcc:var(--pink);}
+.t-gn{--tcg:linear-gradient(90deg,var(--green),#34d399);--tcc:var(--green);}
+.t-bl{--tcg:linear-gradient(90deg,var(--blue),#60a5fa);--tcc:var(--blue);}
+.t-rd{--tcg:linear-gradient(90deg,var(--red),#ff9e9e);--tcc:var(--red);}
+
+/* ── STEP 2: NOTES TABLE ── */
+.notes-wrap{background:var(--bg2);border-radius:14px;border:1px solid var(--border);overflow:hidden;}
+.notes-hd{display:grid;grid-template-columns:32px 1fr 70px 70px 70px 200px;gap:0;padding:10px 18px;background:var(--bg3);border-bottom:1px solid var(--border2);}
+.notes-hd span{font-size:9px;font-weight:700;color:#8a9bc4;letter-spacing:1px;text-transform:uppercase;}
+.note-row{display:grid;grid-template-columns:32px 1fr 70px 70px 70px 200px;gap:0;padding:13px 18px;border-bottom:1px solid var(--border2);align-items:start;cursor:pointer;transition:background .15s;}
+.note-row:last-child{border-bottom:none;}
+.note-row:hover{background:#0a0f1e;}
+.note-row.top{background:rgba(124,111,255,.04);}
+.note-rank{font-size:14px;font-weight:900;color:var(--nr);width:26px;}
+.note-title-wrap{}
+.note-title{font-size:12px;font-weight:700;color:#e0e8ff;line-height:1.4;}
+.note-insight{font-size:10px;color:#8a9bc4;line-height:1.5;margin-top:3px;}
+.note-num{font-size:15px;font-weight:900;color:var(--nc);}
+.note-num.big{font-size:17px;}
+.note-num sub{font-size:9px;font-weight:400;#8a9bc4;}
+.note-rule{font-size:11px;color:#9fade0;line-height:1.6;padding-right:8px;}
+.note-rule strong{color:#9baad0;}
+.rule-label{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1px;color:var(--rl);background:var(--rlb);border-radius:6px;padding:2px 7px;margin-bottom:5px;}
+
+/* ── STEP 3: INSIGHTS ── */
+.ins3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.ins{background:var(--bg2);border-radius:14px;padding:22px;border:1px solid var(--border);position:relative;overflow:hidden;}
+.ins::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--ib);}
+.ins-icon{font-size:24px;margin-bottom:9px;}
+.ins-title{font-size:14px;font-weight:800;color:#e0e8ff;margin-bottom:8px;line-height:1.3;}
+.ins-body{font-size:12px;color:#aab8e8;line-height:1.85;}
+.ins-body strong{color:#9baad0;}
+.num{color:var(--ic);font-weight:900;font-size:14px;}
+.i1{--ib:linear-gradient(90deg,var(--red),#ff9e9e);--ic:var(--red);}
+.i2{--ib:linear-gradient(90deg,var(--amber),#fbbf24);--ic:var(--amber);}
+.i3{--ib:linear-gradient(90deg,var(--purple),#a89fff);--ic:var(--purple);}
+
+/* ── STEP 4: KEYWORDS ── */
+.kw-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.kw{background:var(--bg2);border-radius:10px;padding:14px;border:1px solid var(--border);cursor:pointer;transition:border-color .2s,transform .15s;}
+.kw:hover{border-color:rgba(124,111,255,.4);transform:translateY(-1px);}
+.kw-word{font-size:12px;font-weight:800;color:#e0e8ff;margin-bottom:6px;}
+.kw-heat{display:flex;gap:2px;margin-bottom:5px;}
+.kw-fire{font-size:12px;color:#ff6b6b;font-weight:900;}
+.kw-data{font-size:10px;color:#9fade0;line-height:1.6;}
+.kw-data .hi{font-weight:700;}
+.kw-tag{display:inline-block;font-size:9px;font-weight:700;border-radius:8px;padding:2px 7px;margin-top:5px;}
+.t-now{background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.3);color:var(--red);}
+.t-rise{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:var(--green);}
+.t-long{background:rgba(124,111,255,.1);border:1px solid rgba(124,111,255,.3);color:var(--purple);}
+.t-seize{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:var(--amber);}
+
+/* ── STEP 5: ANGLE CARDS ── */
+.angle-list{display:flex;flex-direction:column;gap:12px;}
+.ac{background:var(--bg2);border-radius:14px;border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:border-color .2s;}
+.ac:hover{border-color:rgba(124,111,255,.3);}
+.ac-hd{display:flex;align-items:center;gap:12px;padding:18px 22px;}
+.ac-num{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;flex-shrink:0;}
+.ac-info{flex:1;}
+.ac-info h3{font-size:14px;font-weight:800;color:#e0e8ff;line-height:1.3;}
+.ac-info p{font-size:10px;color:#9fade0;margin-top:3px;}
+.ac-badge{font-size:9px;font-weight:700;border-radius:10px;padding:3px 10px;flex-shrink:0;}
+.ac-arrow{font-size:11px;#9fade0;transition:transform .2s;flex-shrink:0;}
+.ac.open .ac-arrow{transform:rotate(180deg);}
+.ac-body{display:none;padding:0 22px 22px;}
+.ac.open .ac-body{display:block;}
+.ac-hook{background:rgba(255,220,50,.06);border:1px solid rgba(255,220,50,.2);border-radius:8px;padding:12px 16px;font-style:italic;font-weight:700;color:#ffe169;font-size:13px;line-height:1.6;margin-bottom:16px;}
+.ac-grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;}
+.ac-box{background:var(--bg3);border-radius:9px;padding:13px;}
+.ac-box h4{font-size:9px;font-weight:700;#8a9bc4;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.ac-box p,.ac-box li{font-size:11px;color:#aab8e8;line-height:1.7;}
+.ac-box ul{list-style:none;display:flex;flex-direction:column;gap:4px;}
+.ac-box li{display:flex;align-items:flex-start;gap:5px;}
+.ac-box li .b{flex-shrink:0;font-weight:900;}
+.ac-verify{background:var(--bg3);border-radius:9px;padding:11px 14px;border-left:2px solid var(--av);margin-top:10px;font-size:11px;#9fade0;line-height:1.6;}
+.ac-verify .vt{font-weight:700;color:var(--av);}
+.dp{font-size:9px;font-weight:600;color:var(--green);background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.18);border-radius:6px;padding:2px 7px;display:inline-block;margin-bottom:7px;}
+
+/* angle theme colors */
+.a1{--av:var(--purple);} .a1 .ac-num{background:var(--purple);}
+.a1 .ac-badge{background:rgba(124,111,255,.12);border:1px solid rgba(124,111,255,.3);color:var(--purple);}
+.a2{--av:var(--amber);} .a2 .ac-num{background:var(--amber);}
+.a2 .ac-badge{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);color:var(--amber);}
+.a3{--av:var(--red);} .a3 .ac-num{background:var(--red);}
+.a3 .ac-badge{background:rgba(255,107,107,.12);border:1px solid rgba(255,107,107,.3);color:var(--red);}
+.a4{--av:var(--green);} .a4 .ac-num{background:var(--green);}
+.a4 .ac-badge{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);color:var(--green);}
+
+/* ── STEP 6: OPS INSIGHTS ── */
+.ops-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.op{background:var(--bg2);border-radius:12px;padding:20px;border:1px solid var(--border);position:relative;overflow:hidden;}
+.op::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--og);}
+.op-num{font-size:28px;font-weight:900;color:var(--oc);line-height:1;}
+.op-title{font-size:13px;font-weight:800;color:#e0e8ff;margin:5px 0 8px;}
+.op-body{font-size:12px;color:#aab8e8;line-height:1.8;}
+.op-body strong{color:#9baad0;}
+.op1{--og:linear-gradient(90deg,var(--purple),#a89fff);--oc:var(--purple);}
+.op2{--og:linear-gradient(90deg,var(--amber),#fbbf24);--oc:var(--amber);}
+.op3{--og:linear-gradient(90deg,var(--red),#ff9e9e);--oc:var(--red);}
+.op4{--og:linear-gradient(90deg,var(--green),#34d399);--oc:var(--green);}
+
+/* ── DASHBOARD ── */
+.db{background:var(--bg2);border-radius:16px;border:1px solid var(--border);padding:28px;}
+.db-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-bottom:1px solid var(--border2);padding-bottom:22px;margin-bottom:24px;}
+.kpi{text-align:center;}
+.kpi-n{font-size:26px;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.kpi-l{font-size:10px;#8a9bc4;margin-top:3px;}
+.db-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+.dbp{background:var(--bg3);border-radius:12px;padding:18px;border:1px solid var(--border2);}
+.dbp h4{font-size:9px;#8a9bc4;letter-spacing:2px;font-weight:700;text-transform:uppercase;margin-bottom:14px;}
+/* priority list */
+.plist{display:flex;flex-direction:column;gap:8px;}
+.pitem{display:flex;align-items:flex-start;gap:8px;}
+.p-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+.p-body{font-size:11px;#9fade0;line-height:1.6;}
+.p-body strong{color:#9baad0;}
+/* bar charts */
+.br{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.bl{font-size:10px;color:#9fade0;width:80px;flex-shrink:0;}
+.bbg{flex:1;background:var(--bg2);border-radius:2px;height:4px;overflow:hidden;}
+.bf{height:4px;border-radius:2px;}
+.bv{font-size:10px;color:#7888a8;font-weight:700;width:48px;text-align:right;flex-shrink:0;}
+/* crowd */
+.crowd-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.cp{background:var(--bg2);border-radius:8px;padding:10px 12px;border:1px solid var(--border2);}
+.cp-name{font-size:11px;font-weight:700;color:#c0cce8;margin-bottom:3px;}
+.cp-num{font-size:16px;font-weight:900;color:var(--purple);}
+.cp-unit{font-size:9px;#8a9bc4;}
+.cp-tag{font-size:10px;color:#8a9bc4;margin-top:3px;}
+
+/* ── DL BUTTON ── */
+#dl-btn{position:fixed;bottom:26px;right:26px;background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;border:none;border-radius:28px;padding:12px 24px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(124,111,255,.45);z-index:999;transition:transform .15s;}
+#dl-btn:hover{transform:translateY(-2px);}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hd">
+  <div class="hd-icon">🎨</div>
+  <div class="hd-info">
+    <h1>艺术留学赛道 · 小红书内容灵感报告</h1>
+    <p>完整七步SOP · 4大切角 · 含单篇互动量 · 可交互探索版</p>
+    <div class="badges">
+      <span class="badge bg">✦ 灵犀话题广场 近30天 实采9话题</span>
+      <span class="badge bp">✦ 灵犀内容广场 含单篇赞/收/评实采</span>
+      <span class="badge bb">✦ 灵犀人群市场 6大人群包</span>
+    </div>
+  </div>
+  <div class="hd-meta">
+    <div class="v-chip">v2.0 升级版</div><br>
+    生成：2026-03-27<br>数据截止：2026-03-25
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="nav-btn active" onclick="sw(this,'s1')">🔥 话题广场</button>
+  <button class="nav-btn" onclick="sw(this,'s2')">📝 内容广场笔记</button>
+  <button class="nav-btn" onclick="sw(this,'s3')">💡 核心洞察</button>
+  <button class="nav-btn" onclick="sw(this,'s4')">🔍 关键词地图</button>
+  <button class="nav-btn" onclick="sw(this,'s5')">🎯 4大切角</button>
+  <button class="nav-btn" onclick="sw(this,'s6')">📋 运营策略</button>
+  <button class="nav-btn" onclick="sw(this,'s7')">📊 执行看板</button>
+</div>
+
+<!-- ── S1 话题广场 ── -->
+<div id="s1" class="sec active">
+  <div class="sh"><div class="sh-bar" style="background:var(--amber)"></div><span class="sh-label">STEP 1 · 话题广场数据</span><span class="sh-tag">灵犀实采 近30天</span><span class="sh-count">9个话题</span></div>
+  <div class="tgrid">
+    <div class="tc t-pu">
+      <div class="tc-name"># 斯芬克艺术留学</div>
+      <div class="tc-row">
+        <div class="tc-stat"><div class="tc-n">959.1万</div><div class="tc-l">浏览量</div></div>
+        <div class="tc-stat"><div class="tc-n">5.6万</div><div class="tc-l">讨论量</div></div>
+        <div class="tc-stat"><div class="tc-n">0.58%</div><div class="tc-l">讨论率</div></div>
+      </div>
+      <div class="tc-bar-bg"><div class="tc-bar-fill" style="width:100%"></div></div>
+      <div class="tc-foot">品牌话题 · 赛道体量天花板</div>
+    </div>
+    <div class="tc t-pu">
+      <div class="tc-name"># sia艺术留学</div>
+      <div class="tc-row">
+        <div class="tc-stat"><div class="tc-n">775.4万</div><div class="tc-l">浏览量</div></div>
+        <div class="tc-stat"><div class="tc-n">2.6万</div><div class="tc-l">讨论量</div></div>
+        <div class="tc-stat"><div class="tc-n">0.34%</div><div class="tc-l">讨论率</div></div>
+      </div>
+      <div class="tc-bar-bg"><div class="tc-bar-fill" style="width:81%"></div></div>
+      <div class="tc-foot">品牌话题 · 作品集内容为主</div>
+    </div>
+    <div class="tc t-am">
+      <div class="tc-name"># 日本艺术留学申请</div>
+      <div class="tc-row">
+        <div class="tc-stat"><div class="tc-n">327.0万</div><div class="tc-l">浏览量</div></div>
+        <div class="tc-stat"><div class="tc-n">1.2万</div><div class="tc-l">讨论量</div></div>
+        <div class="tc-stat"><div class="tc-n">0.37%</div><div class="tc-l">讨论率</div></div>
+      </div>
+      <div class="tc-bar-bg"><div class="tc-bar-fill" style="width:34%"></div></div>
+      <div class="tc-foot">目的地话题 · <span class="hi hi-a">声量超英国2.4倍 🔥</span></div>
+    </div>
+    <div class="tc t-pk">
+      <div class="tc-name"># 英国艺术留学申请</div>
+      <div class="tc-row">
+        <div class="tc-stat"><div class="tc-n">133.5万</div><div class="tc-l">浏览量</div></div>
+        <div class="tc-stat"><div class="tc-n">5422</div><div class="tc-l">讨论量</div></div>
+        <div class="tc-stat"><div class="tc-n">0.41%</div><div class="tc-l">讨论率</div></div>
+      </div>
+      <div class="tc-bar-bg"><div class="tc-bar-fill" style="width:14%"></div></div>
+      <div class="tc-foot">目的地话题 · 申请季3-4月冲量</div>
+    </div>
+    <div class="tc t-pk">
+      <div class="tc-name"># 北京艺术留学机构</div>
+      <div class="tc-row">
+        <div class="tc-stat"><div class="tc-n">102.7万</div><div class="tc-l">浏览量</div></div>
+        <div class="tc-stat"><div class="tc-n">9419</div><div class="tc-l">讨论量</div></div>
+        <div class="tc-stat"><div class="tc-n crown" style="color:var(--red)">0.92%</div><div class="tc-l">讨论率</div></div>
+      </div>
+      <div class="tc-bar-bg"><div class="tc-bar-fill" style="width:11%;background:linear-gradient(90deg,var(--red),#ff9e9e)"></div></div>
+      <div class="tc-foot">机构话题 · <span class="hi hi-r">讨论率0.92% 全赛道最高 🔥</span></div>
+    </div>
+    <div class="tc t-gn">
+      <div class="tc-name"># 香港艺术留学院校</div>
+      <div class="tc-row">
+        <div class="tc-stat"><div class="tc-n">69.9万</div><div class="tc-l">浏览量</div></div>
+        <div class="tc-stat"><div class="tc-n">2445</div><div class="tc-l">讨论量</div></div>
+        <div class="tc-stat"><div class="tc-n">0.35%</div><div class="tc-l">讨论率</div></div>
+      </div>
+      <div class="tc-bar-bg"><div class="tc-bar-fill" style="width:7%"></div></div>
+      <div class="tc-foot">新兴方向 · <span class="hi hi-g">2026首进意向榜TOP2 ↑</span></div>
+    </div>
+    <div class="tc t-bl">
+      <div class="tc-name"># 艺术留学机构测评</div>
+      <div class="tc-row">
+        <div class="tc-stat"><div class="tc-n">49.4万</div><div class="tc-l">浏览量</div></div>
+        <div class="tc-stat"><div class="tc-n">2985</div><div class="tc-l">讨论量</div></div>
+        <div class="tc-stat"><div class="tc-n">0.60%</div><div class="tc-l">讨论率</div></div>
+      </div>
+      <div class="tc-bar-bg"><div class="tc-bar-fill" style="width:5%"></div></div>
+      <div class="tc-foot">测评话题 · 决策前最高频查询</div>
+    </div>
+    <div class="tc t-bl">
+      <div class="tc-name"># 新加坡艺术留学申请</div>
+      <div class="tc-row">
+        <div class="tc-stat"><div class="tc-n">10.4万</div><div class="tc-l">浏览量</div></div>
+        <div class="tc-stat"><div class="tc-n">601</div><div class="tc-l">讨论量</div></div>
+        <div class="tc-stat"><div class="tc-n">0.58%</div><div class="tc-l">讨论率</div></div>
+      </div>
+      <div class="tc-bar-bg"><div class="tc-bar-fill" style="width:2%"></div></div>
+      <div class="tc-foot">上升方向 · 近留学新选择</div>
+    </div>
+    <div class="tc t-rd">
+      <div class="tc-name"># 艺术留学ai</div>
+      <div class="tc-row">
+        <div class="tc-stat"><div class="tc-n">3.9万</div><div class="tc-l">浏览量</div></div>
+        <div class="tc-stat"><div class="tc-n">487</div><div class="tc-l">讨论量</div></div>
+        <div class="tc-stat"><div class="tc-n crown" style="color:var(--red)">1.25%🔥</div><div class="tc-l">讨论率</div></div>
+      </div>
+      <div class="tc-bar-bg"><div class="tc-bar-fill" style="width:100%;background:linear-gradient(90deg,var(--red),#ff9e9e)"></div></div>
+      <div class="tc-foot"><span class="hi hi-r">讨论率全场第一 · 均值3.4倍</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── S2 内容广场笔记 ── -->
+<div id="s2" class="sec">
+  <div class="sh"><div class="sh-bar" style="background:var(--purple)"></div><span class="sh-label">STEP 2 · 内容广场笔记</span><span class="sh-tag">灵犀实采 含互动量</span><span class="sh-count">近7日 · 艺术留学</span></div>
+  <div class="notes-wrap">
+    <div class="notes-hd">
+      <span>#</span><span>笔记标题</span><span style="text-align:right">❤️ 赞</span><span style="text-align:right">⭐ 收藏</span><span style="text-align:right">💬 评论</span><span>内容规律 / 信号</span>
+    </div>
+
+    <div class="note-row top" style="--nr:var(--amber);--nc:var(--amber)">
+      <div class="note-rank">🥇</div>
+      <div class="note-title-wrap">
+        <div class="note-title">时尚管理专业解析 / 学这个专业勇闯时尚圈❓</div>
+        <div class="note-insight">专业选择类 · 被当「工具书」收藏，收/赞比极高</div>
+      </div>
+      <div class="note-num" style="text-align:right">819</div>
+      <div class="note-num big" style="color:var(--amber);text-align:right">464<sub>收</sub></div>
+      <div class="note-num" style="text-align:right">3</div>
+      <div class="note-rule"><span class="rule-label" style="--rl:var(--amber);--rlb:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3)">专业选择型</span><br><strong>收藏/赞比=0.57</strong>，信息密度越高收藏率越高，搜索场域长跑利器</div>
+    </div>
+
+    <div class="note-row top" style="--nr:var(--purple);--nc:var(--purple)">
+      <div class="note-rank">🥈</div>
+      <div class="note-title-wrap">
+        <div class="note-title">2年8个offer 🌟 UCL建筑本科作品集怎么做⁉️</div>
+        <div class="note-insight">名校战绩+具体数字+方法论提问 · pCTR×pCVR双高</div>
+      </div>
+      <div class="note-num" style="text-align:right">373</div>
+      <div class="note-num big" style="color:var(--purple);text-align:right">179<sub>收</sub></div>
+      <div class="note-num" style="text-align:right">84</div>
+      <div class="note-rule"><span class="rule-label" style="--rl:var(--purple);--rlb:rgba(124,111,255,.1);border:1px solid rgba(124,111,255,.3)">名校战绩型</span><br>公式验证：<strong>数字（X个offer）+ 名校 + 方法论提问</strong>，收/赞比0.48，是切角一参考模板</div>
+    </div>
+
+    <div class="note-row top" style="--nr:var(--pink);--nc:var(--pink)">
+      <div class="note-rank">🥉</div>
+      <div class="note-title-wrap">
+        <div class="note-title">属于我们的珍藏时刻</div>
+        <div class="note-insight">情感共鸣型 · 评论量最高，强社交传播</div>
+      </div>
+      <div class="note-num" style="text-align:right">777</div>
+      <div class="note-num" style="text-align:right">212</div>
+      <div class="note-num big" style="color:var(--pink);text-align:right">144<sub>评</sub></div>
+      <div class="note-rule"><span class="rule-label" style="--rl:var(--pink);--rlb:rgba(236,72,153,.1);border:1px solid rgba(236,72,153,.3)">情感共鸣型</span><br>完整情绪弧线叙事 → 评论密集，是<strong>切角三（AI×留学）</strong>的叙事方式验证</div>
+    </div>
+
+    <div class="note-row" style="--nr:var(--blue);--nc:var(--blue)">
+      <div class="note-rank" style="font-size:11px;#8a9bc4">4</div>
+      <div class="note-title-wrap">
+        <div class="note-title">艺术留学的申请过程就是资源争夺</div>
+        <div class="note-insight">直击竞争本质，激活焦虑 · 强收藏</div>
+      </div>
+      <div class="note-num" style="text-align:right">137</div>
+      <div class="note-num" style="text-align:right">13</div>
+      <div class="note-num" style="text-align:right">1</div>
+      <div class="note-rule"><span class="rule-label" style="--rl:var(--blue);--rlb:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3)">焦虑激活型</span><br>「资源争夺」四个字触发竞争焦虑，是切角一标题词的来源验证</div>
+    </div>
+
+    <div class="note-row" style="--nr:#8a9bc4;--nc:var(--green)">
+      <div class="note-rank" style="font-size:11px;#8a9bc4">5</div>
+      <div class="note-title-wrap">
+        <div class="note-title">新加坡艺术留学去哪好❓首选这6大院校❗️</div>
+        <div class="note-insight">近留学选校清单型 · 收藏驱动强</div>
+      </div>
+      <div class="note-num" style="text-align:right">99</div>
+      <div class="note-num big" style="color:var(--green);text-align:right">48<sub>收</sub></div>
+      <div class="note-num" style="text-align:right">1</div>
+      <div class="note-rule"><span class="rule-label" style="--rl:var(--green);--rlb:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3)">选校清单型</span><br><strong>收/赞比=0.48</strong>，近留学选校清单模式的转化验证，香港方向可复用</div>
+    </div>
+
+    <div class="note-row" style="--nr:#8a9bc4;--nc:#8a9bc4">
+      <div class="note-rank" style="font-size:11px;color:#8a9bc4">6</div>
+      <div class="note-title-wrap">
+        <div class="note-title">康奈尔教授明确拒绝的2个因素 艺术爬藤必看</div>
+        <div class="note-insight">权威信源+负面清单 · 决策前必看型</div>
+      </div>
+      <div class="note-num" style="text-align:right">105</div>
+      <div class="note-num" style="text-align:right">26</div>
+      <div class="note-num" style="text-align:right">4</div>
+      <div class="note-rule">权威外部信源+「拒绝因素」负面清单，降低门槛，「必看」制造紧迫感</div>
+    </div>
+
+    <div class="note-row" style="--nr:#8a9bc4;--nc:var(--amber)">
+      <div class="note-rank" style="font-size:11px;color:#8a9bc4">7</div>
+      <div class="note-title-wrap">
+        <div class="note-title">高中生去日本留学全攻略！</div>
+        <div class="note-insight">收藏量>点赞量 · 日本方向工具属性强</div>
+      </div>
+      <div class="note-num" style="text-align:right">20</div>
+      <div class="note-num big" style="color:var(--amber);text-align:right">24<sub>收</sub></div>
+      <div class="note-num" style="text-align:right">2</div>
+      <div class="note-rule"><span class="rule-label" style="--rl:var(--amber);--rlb:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3)">攻略工具型</span><br><strong>收藏>点赞（收/赞比1.2）</strong>，日本方向内容被用作攻略保存，印证目的地话题价值</div>
+    </div>
+
+    <div class="note-row" style="--nr:#8a9bc4;--nc:#8a9bc4">
+      <div class="note-rank" style="font-size:11px;color:#8a9bc4">8</div>
+      <div class="note-title-wrap">
+        <div class="note-title">综大vs美院：选错老师，作品集可能白做</div>
+        <div class="note-insight">对比结构+风险提示 · 评论区机构需求密集</div>
+      </div>
+      <div class="note-num" style="text-align:right">29</div>
+      <div class="note-num" style="text-align:right">4</div>
+      <div class="note-num" style="text-align:right">1</div>
+      <div class="note-rule">赞数不高，但评论区「求推荐机构」集中出现 → <strong>需求真实+供给极稀缺</strong>，印证测评方向机会</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── S3 核心洞察 ── -->
+<div id="s3" class="sec">
+  <div class="sh"><div class="sh-bar" style="background:var(--green)"></div><span class="sh-label">STEP 3 · 核心洞察</span><span class="sh-tag">自下而上 数据驱动</span><span class="sh-count">3个关键发现</span></div>
+  <div class="ins3">
+    <div class="ins i1">
+      <div class="ins-icon">🔴</div>
+      <div class="ins-title">「机构评测」是最稀缺的决策内容</div>
+      <div class="ins-body">
+        #北京机构 讨论率 <span class="num">0.92%</span>，#机构测评 讨论率 <span class="num">0.60%</span>，均为赛道均值（0.35%）的 <span class="num">2.5倍</span>。<br><br>
+        内容广场印证：「综大vs美院」赞仅29，但评论区「求推荐」密集——<strong>用户有强烈需求，但高质量中立测评极稀缺</strong>。转化链路：看内容→评论求联系→成交，pCVR全赛道最高。
+      </div>
+    </div>
+    <div class="ins i2">
+      <div class="ins-icon">🟡</div>
+      <div class="ins-title">「日本」在小红书已悄悄超越「英国」</div>
+      <div class="ins-body">
+        #日本 <span class="num">327万</span>浏览，是英国（133.5万）的 <span class="num">2.4倍</span>。<br><br>
+        内容广场印证：「高中生日本留学全攻略」收藏24 > 点赞20，收/赞比>1，被当<strong>攻略工具存</strong>。2026留学意向报告英国仍榜首——小红书日本内容消费热度已明显超越意向比例，<strong>大量潜在转化未被内容承接</strong>。
+      </div>
+    </div>
+    <div class="ins i3">
+      <div class="ins-icon">⚡</div>
+      <div class="ins-title">「AI×留学」是全场争议密度最高的新话题</div>
+      <div class="ins-body">
+        浏览量仅 <span class="num">3.9万</span>（全场最小），但讨论率 <span class="num">1.25%</span>（全场第一），是均值的 <span class="num">3.4倍</span>。<br><br>
+        内容广场印证：「属于我们的珍藏时刻」赞777/评144，完整情绪弧线叙事验证有效——「AI时代艺术设计还值得留学吗」是<strong>持续扩张的争议引擎，现在入场竞争少</strong>。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── S4 关键词地图 ── -->
+<div id="s4" class="sec">
+  <div class="sh"><div class="sh-bar" style="background:var(--teal)"></div><span class="sh-label">STEP 4 · 关键词热度地图</span><span class="sh-count">8个核心词 · 搜索意图+布局建议</span></div>
+  <div class="kw-grid">
+    <div class="kw">
+      <div class="kw-word">艺术留学机构测评</div>
+      <div class="kw-heat"><span class="kw-fire">★</span><span class="kw-fire">★</span><span class="kw-fire">★</span></div>
+      <div class="kw-data">讨论率 <span class="hi" style="color:var(--red)">0.60%</span>｜话题浏览49.4万<br>搜索意图：决策/比较/避坑</div>
+      <div><span class="kw-tag t-now">立刻布局</span></div>
+    </div>
+    <div class="kw">
+      <div class="kw-word">北京/城市+艺术留学机构</div>
+      <div class="kw-heat"><span class="kw-fire">★</span><span class="kw-fire">★</span><span class="kw-fire">★</span></div>
+      <div class="kw-data">讨论率 <span class="hi" style="color:var(--red)">0.92%</span> 赛道最高<br>搜索意图：选机构/对比</div>
+      <div><span class="kw-tag t-now">立刻布局 转化最高</span></div>
+    </div>
+    <div class="kw">
+      <div class="kw-word">日本艺术留学申请</div>
+      <div class="kw-heat"><span class="kw-fire">★</span><span class="kw-fire">★</span><span class="kw-fire">★</span></div>
+      <div class="kw-data">话题浏览 <span class="hi" style="color:var(--amber)">327万</span>｜英国133万<br>搜索意图：攻略/选校/对比</div>
+      <div><span class="kw-tag t-now">立刻布局 红利期</span></div>
+    </div>
+    <div class="kw">
+      <div class="kw-word">艺术留学ai / AI辅助作品集</div>
+      <div class="kw-heat"><span class="kw-fire">★</span><span class="kw-fire">★</span></div>
+      <div class="kw-data">讨论率 <span class="hi" style="color:var(--red)">1.25%</span> 全场第一<br>搜索意图：焦虑/求解/实操</div>
+      <div><span class="kw-tag t-now">立刻布局 低竞争</span></div>
+    </div>
+    <div class="kw">
+      <div class="kw-word">UCL/RCA作品集怎么做</div>
+      <div class="kw-heat"><span class="kw-fire">★</span><span class="kw-fire">★</span></div>
+      <div class="kw-data">「2年8个offer UCL」赞373/收179<br>搜索意图：工具/方法/经验</div>
+      <div><span class="kw-tag t-long">搜索场域长跑</span></div>
+    </div>
+    <div class="kw">
+      <div class="kw-word">时尚管理专业/艺术设计专业</div>
+      <div class="kw-heat"><span class="kw-fire">★</span><span class="kw-fire">★</span></div>
+      <div class="kw-data">「时尚管理专业解析」收 <span class="hi" style="color:var(--amber)">464</span><br>搜索意图：专业了解/选专业</div>
+      <div><span class="kw-tag t-long">专业分析长尾</span></div>
+    </div>
+    <div class="kw">
+      <div class="kw-word">香港艺术留学院校</div>
+      <div class="kw-heat"><span class="kw-fire">★</span></div>
+      <div class="kw-data">话题浏览69.9万｜2026意向TOP2<br>搜索意图：选校/了解/对比</div>
+      <div><span class="kw-tag t-seize">抢占SEO 内容空白</span></div>
+    </div>
+    <div class="kw">
+      <div class="kw-word">新加坡艺术留学申请</div>
+      <div class="kw-heat"><span class="kw-fire">★</span></div>
+      <div class="kw-data">选校清单收/赞比 <span class="hi" style="color:var(--green)">0.48</span><br>搜索意图：选校/攻略</div>
+      <div><span class="kw-tag t-rise">上升期 及早布局</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── S5 4大切角 ── -->
+<div id="s5" class="sec">
+  <div class="sh"><div class="sh-bar" style="background:var(--purple)"></div><span class="sh-label">STEP 5 · 4大内容切角</span><span class="sh-tag">社区爆款验证</span><span class="sh-count">点击展开详情</span></div>
+  <div class="angle-list">
+
+    <div class="ac a1" id="ac1">
+      <div class="ac-hd" onclick="tog('ac1')">
+        <div class="ac-num">01</div>
+        <div class="ac-info">
+          <h3>「我测评了5家艺术留学机构」</h3>
+          <p>决策驱动型 · #北京机构0.92% + #机构测评0.60% 全赛道最高 · 评论区求推荐密集</p>
+        </div>
+        <div class="ac-badge">决策驱动型</div>
+        <div class="ac-arrow">▼</div>
+      </div>
+      <div class="ac-body">
+        <div class="ac-hook">「报名前我测评了5家，把顾问说的和学长说的对比了一遍——发现这几个地方差了挺多」</div>
+        <div class="ac-grid4">
+          <div class="ac-box">
+            <h4>内容结构</h4>
+            <ul>
+              <li><span class="b" style="color:var(--purple)">1.</span><span>横评5家机构（顾问专业度/录取战绩/报价透明度/服务细节）</span></li>
+              <li><span class="b" style="color:var(--purple)">2.</span><span>固定维度对比表格，密度感强</span></li>
+              <li><span class="b" style="color:var(--purple)">3.</span><span>诚实写不足，各家各有优劣，反而更可信</span></li>
+            </ul>
+          </div>
+          <div class="ac-box">
+            <h4>素材Brief（执行）</h4>
+            <ul>
+              <li><span class="b" style="color:var(--purple)">封</span><span>5家机构名字列出（可打码），「测评结果见内文」制造信息差，大字+对比色</span></li>
+              <li><span class="b" style="color:var(--purple)">题</span><span>「测评了X家」+「发现这X个不同」数字+信息差双钩子</span></li>
+              <li><span class="b" style="color:var(--red)">⚠</span><span>必须有真实不足，否则像广告被划走</span></li>
+            </ul>
+          </div>
+          <div class="ac-box">
+            <h4>投放人群</h4>
+            <div class="dp">灵犀人群市场实采</div>
+            <p>20-25岁正在选机构、倾向货比三家的艺术生</p>
+            <p style="margin-top:5px">推荐：雅思兴趣人群（496万）+ 托福兴趣人群（228.5万）</p>
+            <p style="margin-top:5px">场域：搜索「XX机构怎么样」卡位</p>
+          </div>
+          <div class="ac-box">
+            <h4>社区验证</h4>
+            <p>「综大vs美院」赞29但评论区「求推荐」密集 → 供给极稀缺</p>
+            <p style="margin-top:6px">#北京机构0.92% + #机构测评0.60%，均为赛道均值2.5倍</p>
+          </div>
+        </div>
+        <div class="ac-verify a1">
+          <span class="vt">验证结论：</span>用户有强烈机构选择需求，但高质量中立测评内容极度稀缺，供需最失衡，转化链路最短（看→评论求联系→成交），pCVR全赛道最高。
+        </div>
+      </div>
+    </div>
+
+    <div class="ac a2" id="ac2">
+      <div class="ac-hd" onclick="tog('ac2')">
+        <div class="ac-num">02</div>
+        <div class="ac-info">
+          <h3>「放弃英国，我选了日本艺术留学」</h3>
+          <p>目的地对比型 · 日本327万浏览 > 英国133.5万 · 高中生日本攻略收/赞比&gt;1</p>
+        </div>
+        <div class="ac-badge">目的地对比型</div>
+        <div class="ac-arrow">▼</div>
+      </div>
+      <div class="ac-body">
+        <div class="ac-hook">「当初申了3所英国学校，最后去了日本——两年后回头看，我不后悔这个选择」</div>
+        <div class="ac-grid4">
+          <div class="ac-box">
+            <h4>内容结构</h4>
+            <ul>
+              <li><span class="b" style="color:var(--amber)">1.</span><span>个人选择故事（情感线）</span></li>
+              <li><span class="b" style="color:var(--amber)">2.</span><span>英国vs日本5维对比表（费用/申请难度/就业/生活/作品集要求）</span></li>
+              <li><span class="b" style="color:var(--amber)">3.</span><span>不给「谁更好」结论，各有适合人群</span></li>
+            </ul>
+          </div>
+          <div class="ac-box">
+            <h4>素材Brief（执行）</h4>
+            <ul>
+              <li><span class="b" style="color:var(--amber)">封</span><span>🇬🇧 vs 🇯🇵 两国旗+「我选了xx」结论，一眼明白</span></li>
+              <li><span class="b" style="color:var(--amber)">题</span><span>「放弃」「选了」等决策动词，比「对比」代入感更强</span></li>
+              <li><span class="b" style="color:var(--red)">⚠</span><span>不给标准答案，让读者自己判断，互动率更高</span></li>
+            </ul>
+          </div>
+          <div class="ac-box">
+            <h4>投放人群</h4>
+            <div class="dp">灵犀人群市场实采</div>
+            <p>22-26岁有意向但纠结目的地、对性价比敏感</p>
+            <p style="margin-top:5px">推荐：日语JLPT兴趣人群（435.8万）+ 雅思兴趣人群（496万）</p>
+            <p style="margin-top:5px">场域：「日本英国艺术留学对比」双向卡位</p>
+          </div>
+          <div class="ac-box">
+            <h4>社区验证</h4>
+            <p>「高中生去日本留学全攻略」收藏24 > 点赞20，收/赞比1.2</p>
+            <p style="margin-top:6px">#日本 327万浏览 = 英国 × 2.4，内容消费热度超越意向比例</p>
+          </div>
+        </div>
+        <div class="ac-verify a2">
+          <span class="vt">验证结论：</span>日本方向是小红书内容消费热度最高但内容产出严重滞后的方向，目前日本/英国声量差为2.4倍，先发布局者有明显SEO红利和自然流量红利。
+        </div>
+      </div>
+    </div>
+
+    <div class="ac a3" id="ac3">
+      <div class="ac-hd" onclick="tog('ac3')">
+        <div class="ac-num">03</div>
+        <div class="ac-info">
+          <h3>「学艺术的我把AI当成最强队友」</h3>
+          <p>争议热点型 · #艺术留学ai讨论率1.25% 全场第一 · 入场竞争极少</p>
+        </div>
+        <div class="ac-badge">争议热点型</div>
+        <div class="ac-arrow">▼</div>
+      </div>
+      <div class="ac-body">
+        <div class="ac-hook">「作品集被导师否了10次，最后我把AI拉进来当共创者——第11稿他说，这才是你的风格」</div>
+        <div class="ac-grid4">
+          <div class="ac-box">
+            <h4>内容结构</h4>
+            <ul>
+              <li><span class="b" style="color:var(--red)">1.</span><span>失败经历（共情）</span></li>
+              <li><span class="b" style="color:var(--red)">2.</span><span>AI介入契机（转折）</span></li>
+              <li><span class="b" style="color:var(--red)">3.</span><span>实操过程（工具+方法）</span></li>
+              <li><span class="b" style="color:var(--red)">4.</span><span>导师认可（结果）</span></li>
+            </ul>
+          </div>
+          <div class="ac-box">
+            <h4>素材Brief（执行）</h4>
+            <ul>
+              <li><span class="b" style="color:var(--red)">封</span><span>作品集before/after对比图（手绘稿 vs AI辅助完成稿）</span></li>
+              <li><span class="b" style="color:var(--red)">题</span><span>「第X次」「最后」「导师说」等过程感词，触发「想看结局」</span></li>
+              <li><span class="b" style="color:var(--red)">⚠</span><span>90%是创作故事，反「AI替代」叙事，讲「人+AI协作」</span></li>
+            </ul>
+          </div>
+          <div class="ac-box">
+            <h4>投放人群</h4>
+            <div class="dp">灵犀人群市场实采</div>
+            <p>17-23岁在读艺术/设计专业，对AI感兴趣但对留学前景有焦虑</p>
+            <p style="margin-top:5px">推荐：GRE兴趣人群（91.4万）+ DET兴趣人群（198.8万）</p>
+            <p style="margin-top:5px">场域：「AI艺术留学」「作品集AI辅助」卡位</p>
+          </div>
+          <div class="ac-box">
+            <h4>社区验证</h4>
+            <p>「属于我们的珍藏时刻」赞777/收212/评144 → 完整情绪弧线叙事的高互动验证</p>
+            <p style="margin-top:6px">#艺术留学ai 讨论率1.25% = 赛道均值 × 3.4，争议爆点</p>
+          </div>
+        </div>
+        <div class="ac-verify a3">
+          <span class="vt">验证结论：</span>「AI取代设计岗」焦虑正在渗透留学决策，但目前内容供给几乎为零（浏览量仅3.9万却讨论率第一）。正向切入「人+AI协作」比恐慌叙事更可持续，且目前竞争极少。
+        </div>
+      </div>
+    </div>
+
+    <div class="ac a4" id="ac4">
+      <div class="ac-hd" onclick="tog('ac4')">
+        <div class="ac-num">04</div>
+        <div class="ac-info">
+          <h3>「香港艺术留学真实体验全记录」</h3>
+          <p>新兴目的地型 · 2026意向首进TOP2 · 内容空白最大 · SEO红利极强</p>
+        </div>
+        <div class="ac-badge">新兴目的地型</div>
+        <div class="ac-arrow">▼</div>
+      </div>
+      <div class="ac-body">
+        <div class="ac-hook">「香港的艺术院校我去实地逛了一圈，跟我想象中的完全不一样」</div>
+        <div class="ac-grid4">
+          <div class="ac-box">
+            <h4>内容结构</h4>
+            <ul>
+              <li><span class="b" style="color:var(--green)">1.</span><span>香港院校实地探访/一年制硕士体验</span></li>
+              <li><span class="b" style="color:var(--green)">2.</span><span>vlog流水账式，真实感强，不过度包装</span></li>
+              <li><span class="b" style="color:var(--green)">3.</span><span>给出适合什么人的判断，保持中立</span></li>
+            </ul>
+          </div>
+          <div class="ac-box">
+            <h4>素材Brief（执行）</h4>
+            <ul>
+              <li><span class="b" style="color:var(--green)">封</span><span>香港真实校园场景（区别于英美精致包装），差异视觉</span></li>
+              <li><span class="b" style="color:var(--green)">题</span><span>「实地逛」「探访」「完全不一样」制造好奇</span></li>
+              <li><span class="b" style="color:var(--red)">⚠</span><span>不过度精致化，保持真实感；不说「香港最好」</span></li>
+            </ul>
+          </div>
+          <div class="ac-box">
+            <h4>投放人群</h4>
+            <div class="dp">灵犀人群市场实采</div>
+            <p>18-24岁对香港有兴趣、被「近留学」性价比吸引但信息极度缺乏</p>
+            <p style="margin-top:5px">推荐：PTE兴趣人群（133.7万）+ DET兴趣人群（198.8万）</p>
+            <p style="margin-top:5px">场域：搜索无竞争，先发SEO红利极强</p>
+          </div>
+          <div class="ac-box">
+            <h4>社区验证</h4>
+            <p>「新加坡艺术留学6大院校」赞99/收48 → 近留学选校清单模式已验证</p>
+            <p style="margin-top:6px">#香港艺术留学 69.9万浏览，2026首进意向TOP2，内容严重空白</p>
+          </div>
+        </div>
+        <div class="ac-verify a4">
+          <span class="vt">验证结论：</span>香港是2026年意向提升最快的近留学目的地，但小红书内容供给极度空白。新加坡选校清单已验证近留学内容的收藏转化模式，香港内容先发者几乎没有竞争。
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── S6 运营策略 ── -->
+<div id="s6" class="sec">
+  <div class="sh"><div class="sh-bar" style="background:var(--blue)"></div><span class="sh-label">STEP 6 · 运营策略洞察</span><span class="sh-count">4个执行策略</span></div>
+  <div class="ops-grid">
+    <div class="op op1">
+      <div class="op-num">01</div>
+      <div class="op-title">搜索场域是首选阵地</div>
+      <div class="op-body">
+        艺术留学核心词搜索意图明确（机构测评/作品集攻略/目的地对比），pCPC流量质量高。<br><br>
+        <strong>执行：</strong>标题前半段嵌入「艺术留学+机构/申请/作品集」核心词。搜索结果前3位的流量分配比例远高于后位，SEO卡位是ROI最高的动作。
+      </div>
+    </div>
+    <div class="op op2">
+      <div class="op-num">02</div>
+      <div class="op-title">收藏率 > 点赞率，以干货驱动留存</div>
+      <div class="op-body">
+        多篇内容收/赞比接近或超过1：高中生日本全攻略（1.2）、时尚管理专业解析（0.57）、新加坡选校清单（0.48）——内容被当「工具书」使用。<br><br>
+        <strong>执行：</strong>每篇笔记至少提供1个可立即使用的工具（对比表格/选校清单/方法论/模板），不靠娱乐靠实用。
+      </div>
+    </div>
+    <div class="op op3">
+      <div class="op-num">03</div>
+      <div class="op-title">机构测评：供需最失衡的转化机会</div>
+      <div class="op-body">
+        评论区「求推荐」密集，但高质量中立测评极稀缺——转化链路最短：看内容→评论求联系→私信→成交，几乎不需要额外推广。<br><br>
+        <strong>执行：</strong>机构测评内容配合客资收集落地页，评论区积极回复，转化率远高于纯种草内容。
+      </div>
+    </div>
+    <div class="op op4">
+      <div class="op-num">04</div>
+      <div class="op-title">申请季节点提前预热</div>
+      <div class="op-body">
+        艺术留学申请节点：<strong>秋季（9-12月作品集冲刺）/ 春季（3-5月offer季）</strong>是爆量窗口。<br><br>
+        <strong>执行：</strong>提前1-2个月开始内容预热，旺季时笔记已有基础数据和互动积累，算法推荐权重更高，推广成本更低，ROI更好。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── S7 执行看板 ── -->
+<div id="s7" class="sec">
+  <div class="sh"><div class="sh-bar" style="background:var(--green)"></div><span class="sh-label">STEP 7 · 执行看板</span></div>
+  <div class="db">
+    <div class="db-kpis">
+      <div class="kpi"><div class="kpi-n">9个</div><div class="kpi-l">话题广场实采</div></div>
+      <div class="kpi"><div class="kpi-n">8条</div><div class="kpi-l">内容广场含互动量</div></div>
+      <div class="kpi"><div class="kpi-n">1.25%</div><div class="kpi-l">最高话题讨论率</div></div>
+      <div class="kpi"><div class="kpi-n">2.4×</div><div class="kpi-l">日本vs英国声量差</div></div>
+      <div class="kpi"><div class="kpi-n">6个</div><div class="kpi-l">人群包覆盖</div></div>
+    </div>
+    <div class="db-row">
+      <div class="dbp">
+        <h4>执行优先级</h4>
+        <div class="plist">
+          <div class="pitem"><div class="p-dot" style="background:var(--red)"></div><div class="p-body"><strong>P0 本周立刻：</strong>机构测评 — 讨论率全赛道最高，评论区需求密集，供给极稀缺，pCVR最高</div></div>
+          <div class="pitem"><div class="p-dot" style="background:var(--red)"></div><div class="p-body"><strong>P0 同期：</strong>AI×留学 — 1.25%全场第一，现在入场竞争几乎为零，先发优势明显</div></div>
+          <div class="pitem"><div class="p-dot" style="background:var(--amber)"></div><div class="p-body"><strong>P1 常青：</strong>日英目的地对比 — 日本声量远超英国，内容长期需求高，常看常新</div></div>
+          <div class="pitem"><div class="p-dot" style="background:var(--green)"></div><div class="p-body"><strong>P2 抢占：</strong>香港艺术留学 — 2026意向TOP2，内容空白最大，SEO红利极强</div></div>
+        </div>
+      </div>
+      <div class="dbp">
+        <h4>话题讨论率排行</h4>
+        <div class="br"><span class="bl">艺术留学ai</span><div class="bbg"><div class="bf" style="width:100%;background:linear-gradient(90deg,var(--red),#ff9e9e)"></div></div><span class="bv" style="color:var(--red)">1.25%🔥</span></div>
+        <div class="br"><span class="bl">北京机构</span><div class="bbg"><div class="bf" style="width:74%;background:var(--purple)"></div></div><span class="bv">0.92%</span></div>
+        <div class="br"><span class="bl">机构测评</span><div class="bbg"><div class="bf" style="width:48%;background:var(--amber)"></div></div><span class="bv">0.60%</span></div>
+        <div class="br"><span class="bl">英国申请</span><div class="bbg"><div class="bf" style="width:33%;background:var(--pink)"></div></div><span class="bv">0.41%</span></div>
+        <div class="br"><span class="bl">日本申请</span><div class="bbg"><div class="bf" style="width:30%;background:var(--green)"></div></div><span class="bv">0.37%</span></div>
+        <div class="br"><span class="bl">新加坡申请</span><div class="bbg"><div class="bf" style="width:25%;background:var(--blue)"></div></div><span class="bv">0.58%</span></div>
+        <div style="font-size:9px;#8a9bc4;margin-top:10px">数据：灵犀话题广场 近30天实采</div>
+      </div>
+      <div class="dbp">
+        <h4>人群市场（灵犀实采）</h4>
+        <div class="crowd-grid">
+          <div class="cp"><div class="cp-name">雅思兴趣人群</div><div><span class="cp-num">496</span><span class="cp-unit">万人</span></div><div class="cp-tag">英国/澳洲方向</div></div>
+          <div class="cp"><div class="cp-name">日语JLPT人群</div><div><span class="cp-num">435.8</span><span class="cp-unit">万人</span></div><div class="cp-tag">日本方向精准</div></div>
+          <div class="cp"><div class="cp-name">托福兴趣人群</div><div><span class="cp-num">228.5</span><span class="cp-unit">万人</span></div><div class="cp-tag">美国/英国方向</div></div>
+          <div class="cp"><div class="cp-name">DET兴趣人群</div><div><span class="cp-num">198.8</span><span class="cp-unit">万人</span></div><div class="cp-tag">AI+留学年轻化</div></div>
+          <div class="cp"><div class="cp-name">PTE兴趣人群🔥</div><div><span class="cp-num">133.7</span><span class="cp-unit">万人</span></div><div class="cp-tag">近留学方向</div></div>
+          <div class="cp"><div class="cp-name">GRE兴趣人群</div><div><span class="cp-num">91.4</span><span class="cp-unit">万人</span></div><div class="cp-tag">艺术硕士申请</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button id="dl-btn" onclick="dlPng()">⬇ 下载 PNG</button>
+
+<script>
+function sw(btn,id){
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+function tog(id){
+  document.getElementById(id).classList.toggle('open');
+}
+function dlPng(){
+  const btn=document.getElementById('dl-btn');
+  btn.style.display='none';
+  // 展开所有section
+  const secs=document.querySelectorAll('.sec');
+  const nav=document.querySelector('.nav');
+  secs.forEach(s=>{s.style.display='block';});
+  document.querySelectorAll('.ac').forEach(a=>a.classList.add('open'));
+  nav.style.display='none';
+  const s=document.createElement('script');
+  s.src='https://html2canvas.hertzen.com/dist/html2canvas.min.js';
+  s.onload=()=>{
+    setTimeout(()=>{
+      html2canvas(document.body,{scale:2,backgroundColor:'#07090f',useCORS:true}).then(c=>{
+        const a=document.createElement('a');
+        a.download='art-study-abroad-v2.png';
+        a.href=c.toDataURL('image/png');
+        a.click();
+        secs.forEach(s=>{s.style.display='';});
+        document.getElementById('s1').classList.add('active');
+        nav.style.display='';
+        btn.style.display='';
+      });
+    },500);
+  };
+  document.head.appendChild(s);
+}
+</script>
+</body>
+</html>
