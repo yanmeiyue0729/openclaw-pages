@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>优势 × 职业 综合测评</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Helvetica Neue',Arial,sans-serif;background:#f0eeff;min-height:100vh;color:#1f2937}
+
+/* ─── 首页 ─── */
+#home{max-width:760px;margin:0 auto;padding:52px 20px 64px}
+.home-hd{text-align:center;margin-bottom:44px}
+.home-hd h1{font-size:26px;font-weight:800;color:#1a1333;letter-spacing:-.3px;margin-bottom:10px}
+.home-hd p{font-size:14px;color:#7c6fa0;line-height:1.7}
+.home-hd .author{font-size:12px;color:#b0a3cc;margin-top:14px;letter-spacing:.5px}
+
+.cards-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+@media(max-width:540px){.cards-row{grid-template-columns:1fr}}
+
+.tcard{background:white;border-radius:22px;padding:30px 18px 26px;cursor:pointer;border:2px solid transparent;transition:all .22s ease;box-shadow:0 4px 16px rgba(100,80,200,.07);text-align:center;position:relative;overflow:hidden}
+.tcard:hover{transform:translateY(-5px);box-shadow:0 16px 36px rgba(100,80,200,.15)}
+.tcard .tc-icon{font-size:46px;margin-bottom:14px;display:block;line-height:1}
+.tcard h2{font-size:16px;font-weight:700;color:#1a1333;margin-bottom:6px}
+.tcard p{font-size:12px;color:#a89fc0;margin-bottom:14px;line-height:1.5}
+.tc-badge{display:inline-block;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px}
+.tc-done{position:absolute;top:12px;right:12px;font-size:16px}
+
+.tcard-g{border-color:#e8e4ff}.tcard-g:hover{border-color:#7c6ff7;background:linear-gradient(160deg,#f5f3ff,#fff)}
+.tcard-g .tc-badge{background:#ede9fe;color:#5b21b6}
+.tcard-h{border-color:#ffefd9}.tcard-h:hover{border-color:#f59e0b;background:linear-gradient(160deg,#fffbf0,#fff)}
+.tcard-h .tc-badge{background:#fef3c7;color:#92400e}
+.tcard-m{border-color:#d3f9ee}.tcard-m:hover{border-color:#10b981;background:linear-gradient(160deg,#f0fdf8,#fff)}
+.tcard-m .tc-badge{background:#d1fae5;color:#065f46}
+
+/* 综合分析按钮 */
+.combo-card{background:linear-gradient(135deg,#6366f1,#8b5cf6,#ec4899);border-radius:22px;padding:22px 28px;cursor:pointer;transition:all .22s;box-shadow:0 6px 24px rgba(99,102,241,.25);display:flex;align-items:center;gap:16px;color:white;position:relative;overflow:hidden}
+.combo-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent);pointer-events:none}
+.combo-card:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(99,102,241,.4)}
+.combo-card .cc-icon{font-size:36px;flex-shrink:0}
+.combo-card h2{font-size:17px;font-weight:800;margin-bottom:3px}
+.combo-card p{font-size:12px;opacity:.85}
+.combo-card .cc-arrow{margin-left:auto;font-size:20px;opacity:.7}
+.combo-locked{opacity:.5;cursor:not-allowed}
+.combo-locked:hover{transform:none;box-shadow:0 6px 24px rgba(99,102,241,.25)}
+.combo-hint{font-size:11px;color:#a89fc0;text-align:center;margin-top:8px}
+
+/* ─── 测试区 ─── */
+#test-view{display:none;max-width:560px;margin:0 auto;padding:24px 20px 60px}
+.back-btn{display:inline-flex;align-items:center;gap:6px;color:#7c6fa0;font-size:13px;cursor:pointer;padding:8px 0;margin-bottom:18px;background:none;border:none}
+.back-btn:hover{color:#4b3fa0}
+
+.prog-wrap{margin-bottom:24px}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.prog-lbl{font-size:12px;color:#a89fc0;font-weight:600;letter-spacing:.3px}
+.prog-num{font-size:12px;font-weight:700;color:#6366f1}
+.prog-track{height:5px;background:#e9e4ff;border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;transition:width .4s ease}
+.fill-g{background:linear-gradient(90deg,#6366f1,#8b5cf6)}
+.fill-h{background:linear-gradient(90deg,#f59e0b,#f97316)}
+.fill-m{background:linear-gradient(90deg,#10b981,#059669)}
+
+.qcard{background:white;border-radius:22px;padding:32px 24px 28px;box-shadow:0 4px 20px rgba(100,80,200,.08);animation:up .25s ease}
+@keyframes up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.qcard-type{text-align:center;margin-bottom:16px}
+.type-tag{font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;display:inline-block}
+.qcard h3{font-size:16px;font-weight:600;color:#1a1333;line-height:1.55;text-align:center}
+
+/* 盖洛普选项 */
+.g-opts{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+.g-opt{display:flex;align-items:flex-start;gap:12px;padding:15px 16px;border-radius:16px;border:2px solid #ede9fe;cursor:pointer;background:white;transition:border-color .15s,background .15s;text-align:left;width:100%}
+.g-opt:hover{border-color:#6366f1;background:#faf9ff}
+.g-opt.sel-a{border-color:#6366f1;background:#6366f1;color:white}
+.g-opt.sel-b{border-color:#8b5cf6;background:#8b5cf6;color:white}
+.g-opt .oe{font-size:20px;flex-shrink:0;margin-top:1px}
+.g-opt .on{font-size:14px;font-weight:600;margin-bottom:2px}
+.g-opt .od{font-size:11px;opacity:.7}
+.g-opt.sel-a .od,.g-opt.sel-b .od{opacity:.85}
+.g-neutral{text-align:center;padding:10px;border-radius:12px;border:2px solid #e5e7eb;color:#a89fc0;font-size:12px;cursor:pointer;transition:all .15s;margin-top:2px}
+.g-neutral:hover{border-color:#9ca3af;background:#f9fafb}
+.g-neutral.sel-n{border-color:#9ca3af;background:#f3f4f6;font-weight:600;color:#4b5563}
+
+/* 霍兰德/MBTI 选项 */
+.h-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}
+.h-opt{padding:14px 6px;border-radius:16px;border:2px solid #e5e7eb;cursor:pointer;background:white;text-align:center;font-size:13px;font-weight:600;color:#4b5563;transition:all .15s}
+.h-opt:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.h-opt.yes{background:#10b981;border-color:#10b981;color:white}
+.h-opt.nope{background:#ef4444;border-color:#ef4444;color:white}
+.h-opt.mid{background:#e5e7eb;border-color:#d1d5db;color:#4b5563}
+
+/* MBTI agree/disagree */
+.m-opts{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:20px}
+.m-opt{padding:12px 4px;border-radius:14px;border:2px solid #e5e7eb;cursor:pointer;background:white;text-align:center;font-size:11px;font-weight:600;color:#6b7280;transition:all .15s;line-height:1.3}
+.m-opt:hover{transform:translateY(-2px);box-shadow:0 3px 10px rgba(0,0,0,.07)}
+.m-opt.sel{background:#10b981;border-color:#10b981;color:white}
+.m-agree-labels{display:flex;justify-content:space-between;margin-top:6px;padding:0 2px}
+.m-agree-labels span{font-size:10px;color:#a89fc0}
+
+.prev-row{margin-top:14px;text-align:left}
+.prev-link{background:none;border:none;color:#a89fc0;font-size:12px;cursor:pointer;padding:4px 0}
+.prev-link:hover{color:#6366f1}
+
+/* ─── 结果页 ─── */
+.result-wrap{display:none;max-width:560px;margin:0 auto;padding:24px 20px 60px;animation:up .4s ease}
+.rhero{text-align:center;padding:30px 24px 26px;background:white;border-radius:24px;box-shadow:0 4px 18px rgba(100,80,200,.08);margin-bottom:14px}
+.rhero .re{font-size:50px;margin-bottom:10px}
+.rhero h2{font-size:20px;font-weight:800;color:#1a1333;margin-bottom:6px}
+.rhero p{font-size:13px;color:#7c6fa0;line-height:1.6}
+
+.rcard{background:white;border-radius:20px;padding:22px;margin-bottom:12px;box-shadow:0 2px 12px rgba(100,80,200,.06)}
+.rcard h3{font-size:14px;font-weight:700;color:#1a1333;margin-bottom:14px;display:flex;align-items:center;gap:7px}
+
+.str-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f3f0ff}
+.str-row:last-child{border:none}
+.str-rk{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.str-nm{font-size:13px;font-weight:600;color:#1a1333}
+.str-dc{font-size:11px;color:#a89fc0;margin-top:1px}
+.str-dm{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:700;margin-left:5px}
+
+.hb-row{margin-bottom:11px}
+.hb-top{display:flex;justify-content:space-between;margin-bottom:5px}
+.hb-nm{font-size:12px;font-weight:600}
+.hb-sc{font-size:11px;color:#a89fc0}
+.hb-track{height:9px;background:#f3f0ff;border-radius:5px;overflow:hidden}
+.hb-fill{height:100%;border-radius:5px;transition:width 1.2s ease}
+
+.mbti-type-big{font-size:48px;font-weight:900;background:linear-gradient(135deg,#10b981,#059669);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:8px 0}
+.mbti-dim-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+.mbti-dim{background:#f7f5ff;border-radius:14px;padding:12px 14px}
+.mbti-dim .dd-label{font-size:11px;color:#a89fc0;margin-bottom:6px;font-weight:600}
+.mbti-dim .dd-bar{height:8px;background:#e5e7eb;border-radius:4px;overflow:hidden;margin-bottom:4px}
+.mbti-dim .dd-fill{height:100%;border-radius:4px;transition:width 1s ease}
+.mbti-dim .dd-vals{display:flex;justify-content:space-between;font-size:10px;color:#6b7280;font-weight:600}
+
+.job-list{display:flex;flex-wrap:wrap;gap:7px}
+.job-h{padding:5px 13px;border-radius:20px;font-size:12px;font-weight:600;background:#ede9fe;color:#5b21b6;border:1px solid #c4b5fd}
+.job-m{padding:5px 13px;border-radius:20px;font-size:12px;font-weight:600;background:#f0fdf4;color:#166534;border:1px solid #bbf7d0}
+
+.ins-item{border-left:3px solid;padding:10px 12px;margin-bottom:9px;border-radius:0 12px 12px 0}
+.ins-item h4{font-size:12px;font-weight:700;margin-bottom:3px}
+.ins-item p{font-size:12px;color:#4b5563;line-height:1.55}
+
+.redo-btn{width:100%;padding:13px;border-radius:14px;border:2px solid #e5e7eb;background:white;color:#7c6fa0;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;margin-top:8px}
+.redo-btn:hover{background:#f7f5ff;border-color:#c4b5fd}
+
+/* 综合结果 */
+#combo-result{display:none;max-width:600px;margin:0 auto;padding:24px 20px 60px;animation:up .4s ease}
+.combo-hero{text-align:center;padding:32px 24px 28px;border-radius:24px;margin-bottom:14px;color:white;background:linear-gradient(135deg,#6366f1,#8b5cf6,#ec4899);box-shadow:0 8px 28px rgba(99,102,241,.3)}
+.combo-hero h2{font-size:22px;font-weight:800;margin-bottom:8px}
+.combo-hero p{font-size:13px;opacity:.9;line-height:1.6}
+.combo-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.combo-tag{background:rgba(255,255,255,.2);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700}
+</style>
+</head>
+<body>
+
+<!-- ════ 首页 ════ -->
+<div id="home">
+  <div class="home-hd">
+    <h1>✨ 优势 × 职业 综合测评</h1>
+    <p>三套独立测试，点击任意一项开始<br>全部完成后可生成综合职业分析报告</p>
+    <div class="author">「一个身怀绝技的神秘大美人🌙 」制作 · 仅供娱乐</div>
+  </div>
+  <div class="cards-row">
+    <div class="tcard tcard-g" id="card-g" onclick="startGallup()">
+      <span class="tc-done" id="done-g" style="display:none">✅</span>
+      <span class="tc-icon">💎</span>
+      <h2>盖洛普优势</h2>
+      <p>发现你的天赋强项</p>
+      <span class="tc-badge">57 道配对题</span>
+    </div>
+    <div class="tcard tcard-h" id="card-h" onclick="startHolland()">
+      <span class="tc-done" id="done-h" style="display:none">✅</span>
+      <span class="tc-icon">🎯</span>
+      <h2>霍兰德职业兴趣</h2>
+      <p>找到你的职业类型</p>
+      <span class="tc-badge">120 道兴趣题</span>
+    </div>
+    <div class="tcard tcard-m" id="card-m" onclick="startMbti()">
+      <span class="tc-done" id="done-m" style="display:none">✅</span>
+      <span class="tc-icon">🧬</span>
+      <h2>MBTI 人格测试</h2>
+      <p>发现你的人格类型</p>
+      <span class="tc-badge">60 道量表题</span>
+    </div>
+  </div>
+  <div class="combo-card combo-locked" id="combo-btn" onclick="tryCombo()">
+    <div class="cc-icon">🔮</div>
+    <div>
+      <h2>综合职业分析</h2>
+      <p id="combo-sub">完成全部三项测试后解锁</p>
+    </div>
+    <div class="cc-arrow">›</div>
+  </div>
+  <div class="combo-hint" id="combo-hint">已完成 <span id="done-count">0</span> / 3 项</div>
+</div>
+
+<!-- ════ 测试区 ════ -->
+<div id="test-view">
+  <button class="back-btn" onclick="goHome()">← 返回首页</button>
+  <div class="prog-wrap">
+    <div class="prog-top">
+      <span class="prog-lbl" id="prog-lbl"></span>
+      <span class="prog-num" id="prog-num"></span>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+  <div id="q-content"></div>
+  <div class="prev-row"><button class="prev-link" id="btn-prev" onclick="prevQ()">← 上一题</button></div>
+</div>
+
+<!-- ════ 盖洛普结果 ════ -->
+<div id="gallup-result" class="result-wrap">
+  <button class="back-btn" onclick="goHome()">← 返回首页</button>
+  <div id="gallup-result-content"></div>
+  <button class="redo-btn" onclick="startGallup()">🔄 重新测试</button>
+</div>
+
+<!-- ════ 霍兰德结果 ════ -->
+<div id="holland-result" class="result-wrap">
+  <button class="back-btn" onclick="goHome()">← 返回首页</button>
+  <div id="holland-result-content"></div>
+  <button class="redo-btn" onclick="startHolland()">🔄 重新测试</button>
+</div>
+
+<!-- ════ MBTI 结果 ════ -->
+<div id="mbti-result" class="result-wrap">
+  <button class="back-btn" onclick="goHome()">← 返回首页</button>
+  <div id="mbti-result-content"></div>
+  <button class="redo-btn" onclick="startMbti()">🔄 重新测试</button>
+</div>
+
+<!-- ════ 综合分析结果 ════ -->
+<div id="combo-result">
+  <button class="back-btn" onclick="goHome()">← 返回首页</button>
+  <div id="combo-result-content"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// 盖洛普数据
+// ═══════════════════════════════════════
+const ST=[
+  {id:'achievement',name:'成就',domain:'exec',desc:'无论完成多少，总会追求更多'},
+  {id:'discipline', name:'纪律',domain:'exec',desc:'需要秩序和规划，设定日常惯例'},
+  {id:'focus',      name:'专注',domain:'exec',desc:'确定方向后排除干扰全力完成'},
+  {id:'responsibility',name:'责任',domain:'exec',desc:'对承诺有强烈的情感约束感'},
+  {id:'deliberative',name:'审慎',domain:'exec',desc:'行动前仔细评估，识别潜在障碍'},
+  {id:'belief',     name:'信仰',domain:'exec',desc:'核心价值观驱动，使命感强'},
+  {id:'arranger',   name:'统筹',domain:'exec',desc:'善于协调人员和资源，动态优化'},
+  {id:'consistency',name:'公平',domain:'exec',desc:'需要规则和平等对待每个人'},
+  {id:'activator',  name:'行动',domain:'influence',desc:'按下去就开始，行动才能学习'},
+  {id:'command',    name:'统率',domain:'influence',desc:'不回避冲突，主动接管局面'},
+  {id:'communication',name:'沟通',domain:'influence',desc:'善于把想法用文字或故事表达'},
+  {id:'competition',name:'竞争',domain:'influence',desc:'喜欢与他人比较，渴望赢得第一'},
+  {id:'maximizer',  name:'追求',domain:'influence',desc:'专注于将优势从良好提升到卓越'},
+  {id:'self_assurance',name:'自信',domain:'influence',desc:'相信自己的判断和能力'},
+  {id:'significance',name:'荣耀',domain:'influence',desc:'渴望被他人认为重要且有价值'},
+  {id:'woo',        name:'取悦',domain:'influence',desc:'享受赢得陌生人，结识新朋友'},
+  {id:'adaptability',name:'适应',domain:'relation',desc:'活在当下，随机应变'},
+  {id:'developer',  name:'伯乐',domain:'relation',desc:'发现他人潜力，喜欢看到人成长'},
+  {id:'connectedness',name:'关联',domain:'relation',desc:'相信万物相连，有更大目的'},
+  {id:'empathy',    name:'体谅',domain:'relation',desc:'能感受他人情绪，情绪感知力强'},
+  {id:'harmony',    name:'和谐',domain:'relation',desc:'寻求共识，避免冲突'},
+  {id:'includer',   name:'包容',domain:'relation',desc:'关注被边缘化的人，让人有归属感'},
+  {id:'individualization',name:'个别',domain:'relation',desc:'着迷于每个人的独特特质'},
+  {id:'positivity', name:'积极',domain:'relation',desc:'热情感染他人，充满活力'},
+  {id:'relator',    name:'交往',domain:'relation',desc:'享受与亲近者深度关系'},
+  {id:'analytical', name:'分析',domain:'strategy',desc:'寻找影响事物的原因和规律'},
+  {id:'context',    name:'回顾',domain:'strategy',desc:'通过研究过去来理解现在'},
+  {id:'futuristic', name:'前瞻',domain:'strategy',desc:'被对未来的愿景所激励'},
+  {id:'ideation',   name:'思维',domain:'strategy',desc:'着迷于想法，擅长找到联系'},
+  {id:'input',      name:'搜集',domain:'strategy',desc:'渴望了解更多，收集信息'},
+  {id:'intellection',name:'沉思',domain:'strategy',desc:'享受深度思考和脑力活动'},
+  {id:'learner',    name:'学习',domain:'strategy',desc:'热爱学习过程，不断进步'},
+  {id:'strategic',  name:'战略',domain:'strategy',desc:'能在混乱中找到模式和最佳路径'},
+  {id:'belief2',    name:'理念',domain:'strategy',desc:'被基本理念和普遍价值观驱动'},
+];
+const DC={exec:'#5b21b6',influence:'#9d174d',relation:'#1e40af',strategy:'#065f46'};
+const DB={exec:'#ede9fe',influence:'#fce7f3',relation:'#dbeafe',strategy:'#d1fae5'};
+const DN={exec:'执行力',influence:'影响力',relation:'关系建立',strategy:'战略思维'};
+function makePairs(){
+  const sel=[[0,1],[2,3],[4,5],[6,7],[8,9],[10,11],[12,13],[14,15],[16,17],[18,19],[20,21],[22,23],[24,25],[26,27],[28,29],[30,31],[32,33],[0,8],[1,16],[2,20],[3,26],[4,12],[5,18],[6,24],[7,30],[8,16],[9,17],[10,22],[11,23],[12,28],[13,29],[14,32],[15,33],[0,20],[1,26],[2,16],[3,22],[4,28],[5,24],[6,30],[7,32],[8,24],[9,25],[10,18],[11,19],[12,20],[13,21],[14,26],[15,27],[16,28],[17,29],[18,30],[19,31],[20,32],[21,33],[22,26]];
+  return sel.map(([a,b])=>({a:ST[a],b:ST[b]}));
+}
+const PAIRS=makePairs();
+
+// ═══════════════════════════════════════
+// 霍兰德数据
+// ═══════════════════════════════════════
+const HQ={
+  R:['我喜欢动手修理或组装东西','我享受使用工具或机械设备','我喜欢户外运动和体力劳动','我对机械原理很感兴趣','我喜欢按照操作说明完成任务','我擅长使用手工工具','我喜欢从事实际操作性的工作','我对农业、园艺或养殖感兴趣','我喜欢驾驶各种机动车辆','我喜欢亲手制作物品','我愿意从事需要体力的工作','我对电子和电气设备感兴趣','我喜欢测量和制图','我觉得动手比动脑更容易','我对汽车修理感兴趣','我喜欢制作模型或工艺品','我愿意学习某种手艺或技术','我喜欢在工厂或车间工作','我对建筑施工感兴趣','我善于使用各种运动器材'],
+  I:['我喜欢研究复杂的问题','我对科学实验很感兴趣','我喜欢独立思考和探索','我擅长数学和逻辑推理','我对未解之谜很着迷','我喜欢分析数据和寻找规律','我对生物学或自然科学感兴趣','我喜欢阅读学术书籍','我倾向于理性而非感性地思考','我对计算机科学感兴趣','我喜欢提出并检验假设','我对医学或化学感兴趣','我善于从不同角度看待问题','我喜欢研究历史和考古','我对天文学或物理学感兴趣','我享受解答智力谜题','我对心理学或行为科学感兴趣','我喜欢研究环境和生态','我对经济规律和社会现象感兴趣','我善于提炼信息的核心要点'],
+  A:['我喜欢创作诗歌或故事','我对绘画或设计感兴趣','我欣赏和评价艺术作品','我喜欢表演或演讲','我有丰富的想象力','我对音乐创作感兴趣','我喜欢摄影或视频制作','我享受创造新颖的东西','我对室内设计或装饰感兴趣','我喜欢写作和文字创作','我对时尚和服装设计感兴趣','我喜欢参观博物馆和画廊','我对舞蹈或肢体表达感兴趣','我善于用视觉方式传达想法','我喜欢看电影并分析其艺术性','我对广告创意设计感兴趣','我喜欢即兴发挥和创意表达','我对建筑美学感兴趣','我享受独立完成创意项目','我有较强的审美感和艺术品味'],
+  S:['我喜欢帮助别人解决问题','我享受教导或指导他人','我对社会公益活动感兴趣','我善于倾听他人的困惑','我喜欢与人合作完成任务','我对咨询或心理辅导感兴趣','我善于协调人际关系','我喜欢组织团队活动','我对教育事业感兴趣','我关心弱势群体的处境','我擅长化解冲突和矛盾','我喜欢给予他人情感支持','我对社会工作感兴趣','我善于激励和鼓励他人','我喜欢参与社区服务','我对护理或医疗照顾感兴趣','我享受与他人分享知识','我对跨文化交流感兴趣','我善于感知他人的情绪变化','我喜欢在团队中扮演协调角色'],
+  E:['我喜欢说服他人接受我的观点','我对创业和商业机会感兴趣','我享受领导和管理团队','我善于谈判和达成交易','我对竞争和挑战感到兴奋','我喜欢制定目标并追求它','我对市场营销和销售感兴趣','我善于公开演讲','我喜欢承担领导职责','我对政治和组织管理感兴趣','我善于激励他人达成目标','我对商业谈判感兴趣','我享受承担风险和挑战','我喜欢制定战略和计划','我对企业管理感兴趣','我善于发现商机','我喜欢在竞争环境中工作','我对项目管理感兴趣','我善于整合资源达成目标','我喜欢推动变革和创新'],
+  C:['我喜欢整理和分类文件','我善于按规程和步骤工作','我对会计和财务分析感兴趣','我喜欢制定详细的计划','我擅长处理数字和统计','我对档案管理和记录感兴趣','我喜欢按照规则和规定行事','我善于核查错误和细节','我对行政管理工作感兴趣','我喜欢有规律、有秩序的工作环境','我对数据录入和整理感兴趣','我善于遵守操作程序','我喜欢精确计算和测量','我对质量控制和检查感兴趣','我善于维护系统和流程','我对图书馆或文档管理感兴趣','我喜欢完成有明确标准的任务','我对秘书或文职工作感兴趣','我善于追踪和监控进度','我喜欢在结构化的环境中工作'],
+};
+const HI={R:{name:'实际型',emoji:'🔧',color:'#f59e0b',fill:'#fbbf24'},I:{name:'研究型',emoji:'🔬',color:'#3b82f6',fill:'#60a5fa'},A:{name:'艺术型',emoji:'🎨',color:'#ec4899',fill:'#f472b6'},S:{name:'社会型',emoji:'🤝',color:'#10b981',fill:'#34d399'},E:{name:'企业型',emoji:'🚀',color:'#f97316',fill:'#fb923c'},C:{name:'传统型',emoji:'📋',color:'#8b5cf6',fill:'#a78bfa'}};
+const HD={R:'动手能力强，喜欢操作性工作，踏实可靠',I:'思维敏锐，喜欢探索分析，逻辑推理能力强',A:'富有创造力，追求美感，善于表达和创新',S:'热心助人，善于交往，有服务他人的意愿',E:'有领导力，敢于冒险，善于说服和影响他人',C:'重视秩序，做事谨慎，善于处理细节和数字'};
+const CM={A:['品牌策划','内容运营','视觉设计师','UX设计师','文案策划','编辑','广告创意人'],S:['HR经理','培训专员','职业顾问','心理咨询师','公关经理','活动策划','用户研究员'],I:['数据分析师','产品经理','研究员','咨询顾问','系统分析师','战略分析师'],E:['市场总监','创业者','项目经理','商务拓展','营销管理人员'],C:['财务分析师','会计','行政主管','项目协调员','运营专员'],R:['工程师','建筑师','摄影师','技术支持','体育教练']};
+
+// ═══════════════════════════════════════
+// MBTI 数据（60题，四维度，每维15题）
+// ═══════════════════════════════════════
+// 每题格式: {q, dim:'EI'|'SN'|'TF'|'JP', dir:1(倾向前者)|-1(倾向后者)}
+const MQ=[
+  // E/I (15题)
+  {q:'在聚会或社交场合，你通常感到精力充沛',dim:'EI',dir:1},
+  {q:'你更喜欢独自工作而不是团队合作',dim:'EI',dir:-1},
+  {q:'你喜欢成为人群中的焦点',dim:'EI',dir:1},
+  {q:'和陌生人交谈对你来说很轻松',dim:'EI',dir:1},
+  {q:'长时间独处之后你会感到疲惫',dim:'EI',dir:-1},
+  {q:'你在思考时更喜欢边说边想',dim:'EI',dir:1},
+  {q:'你更享受一对一的深度交流而非群体活动',dim:'EI',dir:-1},
+  {q:'你喜欢多线程同时处理多项社交任务',dim:'EI',dir:1},
+  {q:'独处时你会感到充电和恢复活力',dim:'EI',dir:-1},
+  {q:'你主动发起对话，而不是等待别人来找你',dim:'EI',dir:1},
+  {q:'社交活动结束后你通常感到疲惫',dim:'EI',dir:-1},
+  {q:'你有很多认识的人而不只是少数几个密友',dim:'EI',dir:1},
+  {q:'你需要独处时间来恢复精力',dim:'EI',dir:-1},
+  {q:'你在团队头脑风暴中比独自思考更有灵感',dim:'EI',dir:1},
+  {q:'你在行动前倾向于先独立思考和计划',dim:'EI',dir:-1},
+  // S/N (15题)
+  {q:'你更注重实际存在的事物而非理论可能性',dim:'SN',dir:1},
+  {q:'你喜欢思考未来的各种可能性',dim:'SN',dir:-1},
+  {q:'你相信经验和实际操作胜过理论',dim:'SN',dir:1},
+  {q:'你常常会想到事情的隐喻或象征意义',dim:'SN',dir:-1},
+  {q:'你倾向于专注于当下的细节',dim:'SN',dir:1},
+  {q:'你对抽象概念和大局观更感兴趣',dim:'SN',dir:-1},
+  {q:'你更喜欢有明确步骤的指示',dim:'SN',dir:1},
+  {q:'你经常有直觉，知道某事是对的但说不清原因',dim:'SN',dir:-1},
+  {q:'你更信任经过验证的方法而非新颖的方法',dim:'SN',dir:1},
+  {q:'你喜欢探索理论和假设',dim:'SN',dir:-1},
+  {q:'你更关注"是什么"而非"可能是什么"',dim:'SN',dir:1},
+  {q:'你能从看似无关的事物中发现联系',dim:'SN',dir:-1},
+  {q:'你记得住细节和具体事实',dim:'SN',dir:1},
+  {q:'你更喜欢有创意的解决方案而非标准流程',dim:'SN',dir:-1},
+  {q:'你倾向于从具体案例出发来思考',dim:'SN',dir:1},
+  // T/F (15题)
+  {q:'做决定时，你更依赖逻辑分析而非感受',dim:'TF',dir:1},
+  {q:'你优先考虑他人的感受而非客观标准',dim:'TF',dir:-1},
+  {q:'你认为保持客观中立比表达情感更重要',dim:'TF',dir:1},
+  {q:'你在批评他人时会非常注意措辞',dim:'TF',dir:-1},
+  {q:'你认为公平和一致比灵活变通更重要',dim:'TF',dir:1},
+  {q:'你容易被他人的情绪所感染',dim:'TF',dir:-1},
+  {q:'你在争论中追求真相而非和谐',dim:'TF',dir:1},
+  {q:'帮助他人让你感到最有成就感',dim:'TF',dir:-1},
+  {q:'你认为在批评中保持直接比委婉更重要',dim:'TF',dir:1},
+  {q:'你在做决定时会考虑对每个人的影响',dim:'TF',dir:-1},
+  {q:'你更倾向于用事实和数据说服他人',dim:'TF',dir:1},
+  {q:'你觉得赞美和情感支持比分析更能帮助到人',dim:'TF',dir:-1},
+  {q:'你对不合逻辑的决定会感到困惑',dim:'TF',dir:1},
+  {q:'你愿意打破规则来照顾到特殊情况',dim:'TF',dir:-1},
+  {q:'你认为维护原则比考虑例外更重要',dim:'TF',dir:1},
+  // J/P (15题)
+  {q:'你喜欢提前计划，对不确定感到不舒服',dim:'JP',dir:1},
+  {q:'你喜欢保持多个选择开放，而非过早做决定',dim:'JP',dir:-1},
+  {q:'你有明确的日程表并努力遵守',dim:'JP',dir:1},
+  {q:'你擅长随机应变，能灵活调整计划',dim:'JP',dir:-1},
+  {q:'你喜欢在截止日期前完成任务而非最后一刻',dim:'JP',dir:1},
+  {q:'截止日期临近时你反而工作效率更高',dim:'JP',dir:-1},
+  {q:'你的生活空间和工作方式有条有序',dim:'JP',dir:1},
+  {q:'你不喜欢被规则和时间表束缚',dim:'JP',dir:-1},
+  {q:'你喜欢在采取行动前把计划敲定清楚',dim:'JP',dir:1},
+  {q:'你享受自发性的活动和临时决定',dim:'JP',dir:-1},
+  {q:'你倾向于把任务完成后才开始新任务',dim:'JP',dir:1},
+  {q:'你喜欢同时开始多个项目',dim:'JP',dir:-1},
+  {q:'你认为有组织、有系统是高效工作的关键',dim:'JP',dir:1},
+  {q:'你觉得太多计划会扼杀乐趣和创造力',dim:'JP',dir:-1},
+  {q:'你在出行前会详细规划路线和安排',dim:'JP',dir:1},
+];
+
+const MBTI_INFO={
+  ISTJ:{name:'检察官',emoji:'🏛️',desc:'负责任、可靠、务实，是团队中值得信赖的中流砥柱'},
+  ISFJ:{name:'守护者',emoji:'🛡️',desc:'细心、忠诚、有奉献精神，默默支撑身边的人'},
+  INFJ:{name:'提倡者',emoji:'🌿',desc:'理想主义、有远见、富有同理心，追求有意义的事'},
+  INTJ:{name:'建筑师',emoji:'🔭',desc:'独立、有战略眼光，擅长将想法转化为可行计划'},
+  ISTP:{name:'鉴赏家',emoji:'🔧',desc:'冷静、观察力强，擅长分析和解决实际问题'},
+  ISFP:{name:'探险家',emoji:'🎨',desc:'温和、有艺术气质，忠于内心价值观'},
+  INFP:{name:'调停者',emoji:'🦋',desc:'理想主义、有创造力，深刻关注意义和价值'},
+  INTP:{name:'逻辑学家',emoji:'🧩',desc:'分析型、好奇心强，喜欢探索理论和抽象概念'},
+  ESTP:{name:'企业家',emoji:'⚡',desc:'大胆、务实、有能量，擅长行动和解决即时问题'},
+  ESFP:{name:'表演者',emoji:'🎭',desc:'热情开朗、享受当下，是天生的娱乐者'},
+  ENFP:{name:'竞选者',emoji:'🌟',desc:'热情、有创意，善于激励他人和发现可能性'},
+  ENTP:{name:'辩论家',emoji:'💡',desc:'聪明、好奇，喜欢挑战现有观念和辩证思考'},
+  ESTJ:{name:'总经理',emoji:'📋',desc:'有组织力、果断、注重效率，天生的管理者'},
+  ESFJ:{name:'执政官',emoji:'🤝',desc:'热心肠、善于照顾人，重视和谐与他人认可'},
+  ENFJ:{name:'主人公',emoji:'🌈',desc:'有感召力、关心他人，天生的领导者和引导者'},
+  ENTJ:{name:'指挥官',emoji:'👑',desc:'大胆、有决断力，擅长规划和带领团队达成目标'},
+};
+
+// ═══════════════════════════════════════
+// 状态
+// ═══════════════════════════════════════
+const S={
+  mode:'',
+  gAns:{},hAns:{},mAns:{},
+  gIdx:0,
+  hTypes:['R','I','A','S','E','C'],hType:'R',hIdx:0,
+  mIdx:0,
+  done:{g:false,h:false,m:false},
+  results:{g:null,h:null,m:null},
+};
+
+// ═══════════════════════════════════════
+// 显示控制
+// ═══════════════════════════════════════
+function showOnly(id){
+  ['home','test-view','gallup-result','holland-result','mbti-result','combo-result'].forEach(x=>{
+    const el=document.getElementById(x);
+    if(el) el.style.display=(x===id?'block':'none');
+  });
+}
+function goHome(){showOnly('home');updateHomeStatus()}
+
+function updateHomeStatus(){
+  const cnt=Object.values(S.done).filter(Boolean).length;
+  document.getElementById('done-count').textContent=cnt;
+  ['g','h','m'].forEach(k=>{
+    document.getElementById('done-'+k).style.display=S.done[k]?'inline':'none';
+  });
+  const btn=document.getElementById('combo-btn');
+  const sub=document.getElementById('combo-sub');
+  if(cnt===3){
+    btn.classList.remove('combo-locked');
+    sub.textContent='点击查看你的综合职业画像';
+  } else {
+    btn.classList.add('combo-locked');
+    sub.textContent=`完成全部三项测试后解锁（还差 ${3-cnt} 项）`;
+  }
+}
+
+function tryCombo(){
+  if(!S.done.g||!S.done.h||!S.done.m) return;
+  showComboResult();
+}
+
+// ═══════════════════════════════════════
+// 盖洛普
+// ═══════════════════════════════════════
+function startGallup(){S.mode='gallup';S.gIdx=0;showOnly('test-view');renderG()}
+
+function renderG(skipAnim){
+  const i=S.gIdx,total=PAIRS.length,pair=PAIRS[i],ans=S.gAns[i];
+  document.getElementById('prog-lbl').textContent='GALLUP 优势识别';
+  document.getElementById('prog-num').textContent=`${i+1} / ${total}`;
+  const fill=document.getElementById('prog-fill');
+  fill.style.width=Math.round(i/total*100)+'%';
+  fill.className='prog-fill fill-g';
+  document.getElementById('btn-prev').style.opacity=i===0?'0.3':'1';
+  document.getElementById('q-content').innerHTML=`
+  <div class="qcard" style="${skipAnim?'animation:none':''}">
+    <p style="text-align:center;font-size:12px;color:#a89fc0;margin-bottom:18px;font-weight:600;">选择更接近你的那个描述</p>
+    <div class="g-opts">
+      <button class="g-opt ${ans==='A'?'sel-a':''}" onclick="ansG(${i},'A')">
+        <span class="oe">💜</span>
+        <div><div class="on">${pair.a.name}</div><div class="od">${pair.a.desc}</div></div>
+      </button>
+      <div class="g-neutral ${ans==='N'?'sel-n':''}" onclick="ansG(${i},'N')">两者差不多</div>
+      <button class="g-opt ${ans==='B'?'sel-b':''}" onclick="ansG(${i},'B')">
+        <span class="oe">💙</span>
+        <div><div class="on">${pair.b.name}</div><div class="od">${pair.b.desc}</div></div>
+      </button>
+    </div>
+  </div>`;
+}
+
+function ansG(i,v){
+  S.gAns[i]=v;
+  // 只渲染一次：直接跳下一题（不先刷新当前）
+  setTimeout(()=>{
+    if(i<PAIRS.length-1){S.gIdx=i+1;renderG();}
+    else showGallupResult();
+  },300);
+}
+
+// ═══════════════════════════════════════
+// 霍兰德
+// ═══════════════════════════════════════
+function startHolland(){S.mode='holland';S.hType='R';S.hIdx=0;showOnly('test-view');renderH()}
+function hGlobal(){return S.hTypes.indexOf(S.hType)*20+S.hIdx}
+
+function renderH(skipAnim){
+  const gi=hGlobal(),t=S.hType,i=S.hIdx,total=120;
+  const key=`${t}_${i}`,ans=S.hAns[key],info=HI[t];
+  document.getElementById('prog-lbl').textContent='霍兰德 职业兴趣';
+  document.getElementById('prog-num').textContent=`${gi+1} / ${total}`;
+  const fill=document.getElementById('prog-fill');
+  fill.style.width=Math.round(gi/total*100)+'%';
+  fill.className='prog-fill fill-h';
+  document.getElementById('btn-prev').style.opacity=gi===0?'0.3':'1';
+  document.getElementById('q-content').innerHTML=`
+  <div class="qcard" style="${skipAnim?'animation:none':''}">
+    <div class="qcard-type">
+      <span class="type-tag" style="background:${info.color}18;color:${info.color}">${info.emoji} ${info.name}</span>
+    </div>
+    <h3>${HQ[t][i]}</h3>
+    <div class="h-opts">
+      <div class="h-opt ${ans===true?'yes':''}" onclick="ansH('${t}',${i},true)">✓ 符合</div>
+      <div class="h-opt ${ans===null?'mid':''}" onclick="ansH('${t}',${i},null)">— 一般</div>
+      <div class="h-opt ${ans===false?'nope':''}" onclick="ansH('${t}',${i},false)">✗ 不符</div>
+    </div>
+  </div>`;
+}
+
+function ansH(t,i,v){
+  S.hAns[`${t}_${i}`]=v;
+  setTimeout(()=>{
+    const gi=hGlobal();
+    if(gi===119){showHollandResult();return;}
+    if(i<19){S.hIdx++;}else{S.hType=S.hTypes[S.hTypes.indexOf(t)+1];S.hIdx=0;}
+    renderH();
+  },300);
+}
+
+// ═══════════════════════════════════════
+// MBTI
+// ═══════════════════════════════════════
+function startMbti(){S.mode='mbti';S.mIdx=0;showOnly('test-view');renderM()}
+
+// 5级量表：-2非常不同意 -1不同意 0中立 1同意 2非常同意
+const M_OPTS=[{v:-2,label:'非常\n不同意'},{v:-1,label:'不\n同意'},{v:0,label:'中立'},{v:1,label:'同意'},{v:2,label:'非常\n同意'}];
+
+function renderM(skipAnim){
+  const i=S.mIdx,total=MQ.length,q=MQ[i],ans=S.mAns[i];
+  const dimColors={EI:'#6366f1',SN:'#f59e0b',TF:'#ec4899',JP:'#10b981'};
+  const dimNames={EI:'外向/内向',SN:'感觉/直觉',TF:'思考/情感',JP:'判断/感知'};
+  const c=dimColors[q.dim];
+  document.getElementById('prog-lbl').textContent='MBTI 人格测试';
+  document.getElementById('prog-num').textContent=`${i+1} / ${total}`;
+  const fill=document.getElementById('prog-fill');
+  fill.style.width=Math.round(i/total*100)+'%';
+  fill.className='prog-fill fill-m';
+  document.getElementById('btn-prev').style.opacity=i===0?'0.3':'1';
+  document.getElementById('q-content').innerHTML=`
+  <div class="qcard" style="${skipAnim?'animation:none':''}">
+    <div class="qcard-type">
+      <span class="type-tag" style="background:${c}18;color:${c}">${dimNames[q.dim]}</span>
+    </div>
+    <h3>${q.q}</h3>
+    <div class="m-opts">
+      ${M_OPTS.map(o=>`<div class="m-opt ${ans===o.v?'sel':''}" onclick="ansM(${i},${o.v})" style="${ans===o.v?`background:${c};border-color:${c}`:''}">
+        ${o.label.replace('\n','<br>')}
+      </div>`).join('')}
+    </div>
+    <div class="m-agree-labels"><span>← 不同意</span><span>同意 →</span></div>
+  </div>`;
+}
+
+function ansM(i,v){
+  S.mAns[i]=v;
+  setTimeout(()=>{
+    if(i<MQ.length-1){S.mIdx=i+1;renderM();}
+    else showMbtiResult();
+  },300);
+}
+
+// ═══════════════════════════════════════
+// 上一题
+// ═══════════════════════════════════════
+function prevQ(){
+  if(S.mode==='gallup'){
+    if(S.gIdx>0){S.gIdx--;renderG(true);}
+  }else if(S.mode==='holland'){
+    const gi=hGlobal();if(gi===0)return;
+    if(S.hIdx>0){S.hIdx--;}else{S.hType=S.hTypes[S.hTypes.indexOf(S.hType)-1];S.hIdx=19;}
+    renderH(true);
+  }else if(S.mode==='mbti'){
+    if(S.mIdx>0){S.mIdx--;renderM(true);}
+  }
+}
+
+// ═══════════════════════════════════════
+// 盖洛普结果
+// ═══════════════════════════════════════
+function calcGallup(){
+  const sc={};ST.forEach(s=>sc[s.id]=50);
+  PAIRS.forEach((p,i)=>{const a=S.gAns[i];if(a==='A'){sc[p.a.id]+=3;sc[p.b.id]-=1;}else if(a==='B'){sc[p.b.id]+=3;sc[p.a.id]-=1;}});
+  return ST.map(s=>({...s,score:sc[s.id]||50})).sort((a,b)=>b.score-a.score);
+}
+
+function showGallupResult(){
+  const ranked=calcGallup();
+  const top5=ranked.slice(0,5);
+  S.results.g={top5,ranked};
+  S.done.g=true;
+  const dd={exec:0,influence:0,relation:0,strategy:0};
+  top5.forEach(s=>dd[s.domain]++);
+  const md=Object.entries(dd).sort((a,b)=>b[1]-a[1])[0][0];
+  const sum={exec:'你是「把事情做成」的人——有条不紊、承诺必达，在执行层面有天然优势',influence:'你是「让事情发生」的人——能点燃他人、推动前行，天生有感召力',relation:'你是「把人连接起来」的人——对他人高度敏感，善于建立信任',strategy:'你是「看清全局」的人——善于分析、前瞻规划，能看到别人看不到的可能性'};
+  showOnly('gallup-result');
+  document.getElementById('gallup-result-content').innerHTML=`
+  <div class="rhero">
+    <div class="re">💎</div>
+    <h2>你的五大优势</h2>
+    <p>${sum[md]}</p>
+  </div>
+  <div class="rcard">
+    <h3>🏆 TOP 5 优势排名</h3>
+    ${top5.map((s,i)=>`
+    <div class="str-row">
+      <div class="str-rk" style="background:${DB[s.domain]};color:${DC[s.domain]}">${i+1}</div>
+      <div>
+        <div class="str-nm">${s.name}<span class="str-dm" style="background:${DB[s.domain]};color:${DC[s.domain]}">${DN[s.domain]}</span></div>
+        <div class="str-dc">${s.desc}</div>
+      </div>
+    </div>`).join('')}
+  </div>
+  <div class="rcard">
+    <h3>💡 优势发挥建议</h3>
+    <div class="ins-item" style="border-color:#6366f1;background:#f7f5ff">
+      <h4 style="color:#4338ca">核心领域：${DN[md]}</h4>
+      <p>在${DN[md]}类场景中你会如鱼得水，找到这类工作环境，优势自然释放。</p>
+    </div>
+  </div>`;
+  updateHomeStatus();
+}
+
+// ═══════════════════════════════════════
+// 霍兰德结果
+// ═══════════════════════════════════════
+function calcHolland(){
+  const sc={R:0,I:0,A:0,S:0,E:0,C:0};
+  Object.entries(S.hAns).forEach(([k,v])=>{const t=k.split('_')[0];if(v===true)sc[t]+=2;else if(v===null)sc[t]+=1;});
+  return Object.entries(sc).sort((a,b)=>b[1]-a[1]);
+}
+
+function showHollandResult(){
+  const sorted=calcHolland();
+  const top3=sorted.slice(0,3).map(([t])=>t);
+  S.results.h={sorted,top3};
+  S.done.h=true;
+  const mv=Math.max(...sorted.map(([,v])=>v))||1;
+  const mt=top3[0];
+  showOnly('holland-result');
+  document.getElementById('holland-result-content').innerHTML=`
+  <div class="rhero" style="border-top:4px solid ${HI[mt].color}">
+    <div class="re">${HI[mt].emoji}</div>
+    <h2>你的职业兴趣类型</h2>
+    <p><strong style="color:${HI[mt].color}">${top3.map(t=>HI[t].name).join(' × ')}</strong><br>
+    <span style="font-size:12px;">${HD[mt]}</span></p>
+  </div>
+  <div class="rcard">
+    <h3>📊 六维评分</h3>
+    ${sorted.map(([t,v])=>{const info=HI[t];const pct=Math.round(v/mv*100);return`
+    <div class="hb-row">
+      <div class="hb-top"><span class="hb-nm" style="color:${info.color}">${info.emoji} ${info.name}</span><span class="hb-sc">${v}分</span></div>
+      <div class="hb-track"><div class="hb-fill" style="width:0%;background:${info.fill}" data-w="${pct}"></div></div>
+    </div>`;}).join('')}
+  </div>
+  <div class="rcard">
+    <h3>🚀 推荐职业方向</h3>
+    <div class="job-list">
+      ${(CM[mt]||[]).slice(0,4).map(c=>`<span class="job-h">${c}</span>`).join('')}
+      ${(CM[mt]||[]).slice(4).map(c=>`<span class="job-m">${c}</span>`).join('')}
+    </div>
+  </div>`;
+  setTimeout(()=>{document.querySelectorAll('.hb-fill').forEach(el=>{el.style.width=el.dataset.w+'%'})},100);
+  updateHomeStatus();
+}
+
+// ═══════════════════════════════════════
+// MBTI 结果
+// ═══════════════════════════════════════
+function calcMbti(){
+  const dims={EI:0,SN:0,TF:0,JP:0};
+  MQ.forEach((q,i)=>{
+    const v=S.mAns[i];
+    if(v===undefined||v===null)return;
+    dims[q.dim]+=v*q.dir;
+  });
+  const type=
+    (dims.EI>=0?'E':'I')+
+    (dims.SN>=0?'S':'N')+
+    (dims.TF>=0?'T':'F')+
+    (dims.JP>=0?'J':'P');
+  return {type,dims};
+}
+
+function showMbtiResult(){
+  const {type,dims}=calcMbti();
+  const info=MBTI_INFO[type]||{name:type,emoji:'🧬',desc:'你的人格类型'};
+  S.results.m={type,dims,info};
+  S.done.m=true;
+
+  // 每个维度的百分比（偏向哪边）
+  const maxScore=15*2; // 15题×最高2分
+  function dimPct(dim,pos){
+    const v=dims[dim];
+    const pct=Math.round((v/maxScore+1)/2*100);
+    return pos?pct:100-pct;
+  }
+
+  showOnly('mbti-result');
+  document.getElementById('mbti-result-content').innerHTML=`
+  <div class="rhero" style="border-top:4px solid #10b981">
+    <div class="re">${info.emoji}</div>
+    <div class="mbti-type-big">${type}</div>
+    <h2>${info.name}</h2>
+    <p>${info.desc}</p>
+  </div>
+  <div class="rcard">
+    <h3>📊 四维度分析</h3>
+    <div class="mbti-dim-row">
+      ${[
+        {dim:'EI',l:'E 外向',r:'I 内向',color:'#6366f1'},
+        {dim:'SN',l:'S 感觉',r:'N 直觉',color:'#f59e0b'},
+        {dim:'TF',l:'T 思考',r:'F 情感',color:'#ec4899'},
+        {dim:'JP',l:'J 判断',r:'P 感知',color:'#10b981'},
+      ].map(({dim,l,r,color})=>{
+        const pct=dimPct(dim,true);
+        const dominant=pct>=50?l:r;
+        const pctShow=pct>=50?pct:100-pct;
+        return`<div class="mbti-dim">
+          <div class="dd-label">${dominant} 倾向 ${pctShow}%</div>
+          <div class="dd-bar"><div class="dd-fill" data-w="${pct}" style="width:0%;background:${color}"></div></div>
+          <div class="dd-vals"><span>${l}</span><span>${r}</span></div>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>
+  <div class="rcard">
+    <h3>💡 性格特点</h3>
+    <div class="ins-item" style="border-color:#10b981;background:#f0fdf4">
+      <h4 style="color:#065f46">核心特质</h4>
+      <p>${info.desc}。了解自己的类型，有助于找到最适合自己的工作方式和环境。</p>
+    </div>
+  </div>`;
+  setTimeout(()=>{document.querySelectorAll('.dd-fill').forEach(el=>{el.style.width=el.dataset.w+'%'})},100);
+  updateHomeStatus();
+}
+
+// ═══════════════════════════════════════
+// 综合分析
+// ═══════════════════════════════════════
+function showComboResult(){
+  const g=S.results.g,h=S.results.h,m=S.results.m;
+  const top5=g.top5;
+  const hSorted=h.sorted; // [[type,score],...]
+  const hTop=h.top3[0];
+  const hTop3=h.top3;
+  const mbtiType=m.type;
+  const mbtiInfo=m.info;
+  const dims=m.dims;
+
+  // 找主领域
+  const dd={exec:0,influence:0,relation:0,strategy:0};
+  top5.forEach(s=>dd[s.domain]++);
+  const mainDomain=Object.entries(dd).sort((a,b)=>b[1]-a[1])[0][0];
+
+  // 优势组合命名逻辑
+  function getProfileLabel(){
+    const d0=top5[0].domain,d1=top5[1].domain;
+    if((d0==='exec'||d1==='exec')&&(d0==='strategy'||d1==='strategy')) return '「深度思考者 + 高标准执行者」';
+    if((d0==='exec'||d1==='exec')&&(d0==='relation'||d1==='relation')) return '「高标准的落地者 + 有温度的连接者」';
+    if((d0==='influence'||d1==='influence')&&(d0==='strategy'||d1==='strategy')) return '「远见者 + 说服者」';
+    if((d0==='influence'||d1==='influence')&&(d0==='relation'||d1==='relation')) return '「感召者 + 关系编织者」';
+    if((d0==='strategy'||d1==='strategy')&&(d0==='relation'||d1==='relation')) return '「洞察者 + 人心连接者」';
+    if(d0==='exec') return '「把事情做成的人」';
+    if(d0==='influence') return '「让事情发生的人」';
+    if(d0==='relation') return '「把人连接起来的人」';
+    return '「全局思考者」';
+  }
+
+  // 逐条优势解读
+  function buildStrengthInsights(){
+    // 按领域分组
+    const groups={};
+    top5.forEach((s,i)=>{
+      if(!groups[s.domain]) groups[s.domain]=[];
+      groups[s.domain].push({...s,rank:i+1});
+    });
+    const domainInsights={
+      exec:'执行可靠性',influence:'影响感召力',relation:'人际连接力',strategy:'战略思维力'
+    };
+    return Object.entries(groups).map(([domain,strs])=>{
+      const items=strs.map(s=>`<div style="padding:8px 0;border-bottom:1px solid #f0eeff;">
+        <div style="font-size:13px;font-weight:600;color:#1a1333;margin-bottom:3px;">
+          <span style="background:${DB[domain]};color:${DC[domain]};padding:1px 7px;border-radius:10px;font-size:11px;margin-right:6px;">#${s.rank}</span>
+          ${s.name}
+        </div>
+        <div style="font-size:12px;color:#6b7280;line-height:1.5;">${s.desc}。</div>
+      </div>`).join('');
+      const synergy=strs.length>1?`<div style="background:${DB[domain]};border-radius:10px;padding:9px 12px;margin-top:8px;font-size:12px;color:${DC[domain]};font-weight:600;">
+        ${strs.map(s=>s.name).join('＋')} 叠加：${getDomainSynergy(domain,strs)}
+      </div>`:''
+      return `<div class="ins-item" style="border-color:${DC[domain]};background:white;margin-bottom:12px;">
+        <h4 style="color:${DC[domain]};font-size:13px;">① ${domainInsights[domain]}（${strs.map(s=>s.name).join('+')}）</h4>
+        ${items}
+        ${synergy}
+      </div>`;
+    }).join('');
+  }
+
+  function getDomainSynergy(domain,strs){
+    const names=strs.map(s=>s.name);
+    if(domain==='exec'){
+      if(names.includes('纪律')&&names.includes('审慎')) return '做事有节奏感且不冲动，出错率极低';
+      if(names.includes('纪律')&&names.includes('责任')) return '承诺必达，是团队里最靠谱的那个人';
+      return '执行层面有天然优势，交给你的事不用盯';
+    }
+    if(domain==='relation'){
+      if(names.includes('和谐')&&names.includes('体谅')) return '不只是不制造冲突，还真的能感受到别人的情绪';
+      return '在人与人之间天然充当润滑剂';
+    }
+    if(domain==='strategy'){
+      return '既能看到模式，又能把想法落成框架';
+    }
+    return '在这个领域有复合竞争力';
+  }
+
+  // 霍兰德+MBTI联合解读
+  function buildHollandMbtiNote(){
+    const hDesc={A:'艺术感知力——对美的形式有感受力，语言表达、视觉审美、文字叙事都可能是天赋项。注意：这里的「艺术型」不一定是「会画画」，更多是「有表达欲、有审美、创造力不差」',S:'社会服务感——喜欢帮助人、教导人、支持人，人际敏感度高，在服务他人中获得能量',I:'研究探索感——思维敏锐，喜欢探索规律，在有深度分析空间的工作中如鱼得水',E:'企业驱动感——有领导力和说服力，在有挑战性目标和竞争氛围中最有活力',C:'秩序系统感——重视规范和精确，在有清晰流程和标准的工作中发挥最稳',R:'实操动手感——相信行动和实践，在有具体成果的工作中最踏实'};
+    const mbtiDimNote={
+      EI: dims.EI>=0?'你是外倾型（E），在团队协作和对外交流的场景中更有活力，过度独立工作容易消耗能量':'你是内倾型（I），在独立深度工作中表现最佳，高强度社交会消耗你，要给自己留恢复时间',
+      SN: dims.SN>=0?'你是感觉型（S），注重实际和细节，适合有具体交付物和清晰标准的工作':'你是直觉型（N），有强烈的直觉感知，适合需要创新思维和长远规划的角色',
+      TF: dims.TF>=0?'你是思考型（T），倾向逻辑分析，在需要客观判断和数据决策的岗位上游刃有余':'你是情感型（F），情感感知力强，在需要理解人的需求、维系关系的工作中天然出彩',
+      JP: dims.JP>=0?'你是判断型（J），计划性强，喜欢有结构的工作环境，截止日期清晰的项目让你最舒服':'你是感知型（P），灵活适应性强，适合需要随机应变和多线并行的动态工作场景',
+    };
+    return `<div style="margin-bottom:10px;">
+      <div style="font-size:13px;font-weight:600;color:#1a1333;margin-bottom:6px;">霍兰德 ${hTop3.join('')} 组合：</div>
+      <div style="font-size:12px;color:#6b7280;line-height:1.7;">${hDesc[hTop]}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;">
+      ${Object.entries(mbtiDimNote).map(([dim,note])=>{
+        const c={EI:'#6366f1',SN:'#f59e0b',TF:'#ec4899',JP:'#10b981'}[dim];
+        return `<div style="background:${c}0f;border-radius:12px;padding:10px 12px;">
+          <div style="font-size:10px;font-weight:700;color:${c};margin-bottom:4px;">${dim}</div>
+          <div style="font-size:11px;color:#4b5563;line-height:1.5;">${note}</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }
+
+  // 职业推荐表格
+  function buildCareerTable(){
+    // 根据霍兰德top3 + 主领域 + MBTI 推断
+    const isI=mbtiType[0]==='I';
+    const isF=mbtiType[2]==='F';
+    const isN=mbtiType[1]==='N';
+    const tableRows=[];
+
+    const careerDB={
+      A:{
+        exec:[{dir:'内容/品牌策划',jobs:'品牌策划、内容运营、文案策划',logic:`${HI.A.name}表达欲+${DN.exec}执行保证交付质量`},
+             {dir:'编辑/写作',jobs:'编辑、内容主编、文字策划',logic:`艺术型高分+${top5[0]?top5[0].name:'专注'}高标准+审慎，文字工作能做到慢工出细活`}],
+        relation:[{dir:'UX/用户体验',jobs:'UX设计师、产品运营、用户研究',logic:`${HI.A.name}美感+${isF?'情感型F对人极敏感':'对用户需求有共情'}，${DN.relation}平衡多方需求`},
+                  {dir:'活动/社群运营',jobs:'活动策划、社群运营、品牌公关',logic:`艺术创意+社群连接力，让内容有温度有感染力`}],
+        strategy:[{dir:'产品策划',jobs:'C端产品经理、内容战略师、品牌战略',logic:`直觉型洞察+艺术审美+战略布局，适合面向用户的产品方向`}],
+        influence:[{dir:'创意/广告',jobs:'创意总监、广告策划、品牌经理',logic:`艺术感召力+影响力优势，适合有说服和表达需求的创意岗位`}],
+      },
+      S:{
+        exec:[{dir:'HR/培训',jobs:'培训专员、HRBP、企业文化',logic:`社会型天然帮助他人，${DN.exec}执行保证计划落地`},
+             {dir:'客户成功',jobs:'客户成功经理、售后服务总监',logic:`服务意愿强+执行稳，客户满意度高`}],
+        relation:[{dir:'咨询/顾问',jobs:'职业顾问、心理咨询师、教育顾问',logic:`社会型倾听力+${isI?'内倾型深度交流':'真诚连接'}，适合一对一深度服务`},
+                  {dir:'社区运营',jobs:'用户运营、社区运营、公益项目',logic:`以人为本的社会型+关系建立优势`}],
+        strategy:[{dir:'组织发展',jobs:'组织发展顾问、企业文化总监、战略HR',logic:`对人的洞察+战略视野，推动组织层面的改变`}],
+        influence:[{dir:'公关/培训',jobs:'公关经理、培训讲师、销售培训总监',logic:`服务型影响力，通过帮助他人建立信任和影响`}],
+      },
+      I:{
+        exec:[{dir:'数据/分析',jobs:'数据分析师、算法工程师、研究员',logic:`研究型+执行力，能把分析转化为可落地的结论`}],
+        relation:[{dir:'用户研究',jobs:'用户研究员、数据产品经理、体验设计',logic:`研究型洞察+对人敏感，深挖用户真实需求`}],
+        strategy:[{dir:'战略/咨询',jobs:'战略分析师、管理咨询顾问、产品经理',logic:`研究型+战略思维，是分析复杂问题的复合型人才`}],
+        influence:[{dir:'技术布道',jobs:'产品经理、技术顾问、咨询顾问',logic:`研究深度+影响表达，能把复杂内容讲清楚`}],
+      },
+      E:{
+        exec:[{dir:'运营/项目管理',jobs:'运营总监、项目总监、执行总监',logic:`企业型驱动+执行力，推动目标达成`}],
+        relation:[{dir:'商务/BD',jobs:'商务总监、BD总监、客户关系总监',logic:`说服力+关系力，是BD的黄金组合`}],
+        strategy:[{dir:'创业/战略',jobs:'CEO/创始人、战略总监、投资顾问',logic:`商业驱动+战略布局，适合高自主度的领导角色`}],
+        influence:[{dir:'市场/销售',jobs:'市场总监、销售总监、品牌总监',logic:`企业型感召力+影响力，推动增长的核心岗位`}],
+      },
+      C:{
+        exec:[{dir:'财务/合规',jobs:'财务总监、审计经理、合规总监',logic:`传统型+执行力，在标准化工作中高度可靠`}],
+        relation:[{dir:'薪酬/行政',jobs:'HRBP、薪酬福利专家、行政总监',logic:`有秩序感+关系连接力，把流程做得有温度`}],
+        strategy:[{dir:'商业分析',jobs:'CFO、商业智能总监、财务战略',logic:`传统型精确性+战略视野，适合做财务决策支持`}],
+        influence:[{dir:'风控/运营',jobs:'风控总监、运营总监、商业分析总监',logic:`传统型影响力，通过专业性建立信任`}],
+      },
+      R:{
+        exec:[{dir:'技术/工程',jobs:'技术总监、工程总监、建筑师',logic:`实操型+执行力，把事情做成的工程思维`}],
+        relation:[{dir:'技术培训',jobs:'技术培训师、工程顾问',logic:`实操经验+关系力，能把技术传授给他人`}],
+        strategy:[{dir:'技术战略',jobs:'CTO、首席架构师、技术战略顾问',logic:`实操深度+战略视角`}],
+        influence:[{dir:'技术布道',jobs:'CTO、技术总监、工程VP',logic:`技术影响力，带领技术方向`}],
+      },
+    };
+
+    const mainRows=(careerDB[hTop]&&careerDB[hTop][mainDomain])||[{dir:'综合管理',jobs:'项目经理、运营总监、策划总监',logic:'多维优势适合跨职能协调角色'}];
+    // 副类型补充方向
+    const secType=hTop3[1];
+    const secRows=secType&&careerDB[secType]&&careerDB[secType][mainDomain]?careerDB[secType][mainDomain].slice(0,1):[];
+
+    let html=`<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12px;">
+    <thead><tr style="background:#f7f5ff;">
+      <th style="padding:10px 12px;text-align:left;color:#5b21b6;font-weight:700;border-radius:8px 0 0 8px;">🥇 方向</th>
+      <th style="padding:10px 12px;text-align:left;color:#5b21b6;font-weight:700;">具体职业</th>
+      <th style="padding:10px 12px;text-align:left;color:#5b21b6;font-weight:700;border-radius:0 8px 8px 0;">匹配逻辑</th>
+    </tr></thead><tbody>`;
+    mainRows.forEach(row=>{
+      html+=`<tr style="border-bottom:1px solid #f3f0ff;">
+        <td style="padding:10px 12px;font-weight:600;color:#1a1333;">${row.dir}</td>
+        <td style="padding:10px 12px;color:#4b5563;">${row.jobs}</td>
+        <td style="padding:10px 12px;color:#9ca3af;line-height:1.5;">${row.logic}</td>
+      </tr>`;
+    });
+    html+=`</tbody></table></div>`;
+
+    if(secRows.length>0){
+      html+=`<div style="margin-top:14px;overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <thead><tr style="background:#f0fdf4;">
+        <th style="padding:8px 12px;text-align:left;color:#065f46;font-weight:700;border-radius:8px 0 0 8px;">🥈 也适合</th>
+        <th style="padding:8px 12px;text-align:left;color:#065f46;font-weight:700;">具体职业</th>
+        <th style="padding:8px 12px;text-align:left;color:#065f46;font-weight:700;border-radius:0 8px 8px 0;">匹配逻辑</th>
+      </tr></thead><tbody>`;
+      secRows.forEach(row=>{
+        html+=`<tr><td style="padding:8px 12px;font-weight:600;color:#1a1333;">${row.dir}</td>
+          <td style="padding:8px 12px;color:#4b5563;">${row.jobs}</td>
+          <td style="padding:8px 12px;color:#9ca3af;line-height:1.5;">${row.logic}</td></tr>`;
+      });
+      html+=`</tbody></table></div>`;
+    }
+    return html;
+  }
+
+  // 盲区
+  function buildBlindspot(){
+    const hScoreMap={}; hSorted.forEach(([t,v])=>hScoreMap[t]=v);
+    const lowest=hSorted[hSorted.length-1];
+    const spots=[];
+    if(hScoreMap.E<(hScoreMap[hTop]*0.5)) spots.push(`<div class="ins-item" style="border-color:#f59e0b;background:#fffbf0"><h4 style="color:#92400e">不擅长强竞争/强销售场景</h4><p>霍兰德企业型（E）得分偏低，主动争抢资源、强势推销不是你的舒适区，在纯销售KPI岗位上可能长期内耗。</p></div>`);
+    if(mbtiType[2]==='F') spots.push(`<div class="ins-item" style="border-color:#f59e0b;background:#fffbf0"><h4 style="color:#92400e">冲突回避可能成为职场软肋</h4><p>情感型（F）有时会委屈自己维持表面平和，在需要直接表达不满、主张权益时会比较拧巴，需要刻意练习「不舒服也说出来」。</p></div>`);
+    if(top5.some(s=>s.name==='追求'||s.name==='审慎')) spots.push(`<div class="ins-item" style="border-color:#f59e0b;background:#fffbf0"><h4 style="color:#92400e">完美主义可能带来效率焦虑</h4><p>追求/审慎叠加容易在「够好了吗」这个问题上耗时间，要学会区分「90分的事」和「60分就够」的事，不把每件事都当成100分来做。</p></div>`);
+    if(hScoreMap.R<10) spots.push(`<div class="ins-item" style="border-color:#6b7280;background:#f9fafb"><h4 style="color:#374151">实操型偏低，这个没悬念</h4><p>不适合需要大量体力劳动或精密机械操作的工作，这个按照测试结果直接排除就好。</p></div>`);
+    if(spots.length===0) spots.push(`<div class="ins-item" style="border-color:#10b981;background:#f0fdf4"><h4 style="color:#065f46">优势分布均衡</h4><p>没有特别突出的短板，主要注意避开与兴趣型完全相反的工作场景（如${hTop==='A'?'纯数据录入/标准化重复操作':hTop==='S'?'完全无需与人打交道的技术型工作':'高频社交的纯销售岗位'}）。</p></div>`);
+    return spots.join('');
+  }
+
+  const strProfile=top5.slice(0,3).map(s=>s.name).join('＋');
+  const profileLabel=getProfileLabel();
+
+  showOnly('combo-result');
+  document.getElementById('combo-result-content').innerHTML=`
+  <div class="combo-hero">
+    <div style="font-size:48px;margin-bottom:10px;">🔮</div>
+    <h2>你的综合职业画像</h2>
+    <p>基于盖洛普优势 × 霍兰德兴趣 × MBTI 人格三维交叉分析</p>
+    <div class="combo-tags">
+      <span class="combo-tag">💎 ${strProfile}</span>
+      <span class="combo-tag">${HI[hTop].emoji} ${HI[hTop3.join('')]?hTop3.join(''):hTop}</span>
+      <span class="combo-tag">🧬 ${mbtiType} ${mbtiInfo.name}</span>
+    </div>
+  </div>
+
+  <div class="rcard">
+    <h3>🎯 个人优势解读</h3>
+    <div style="background:linear-gradient(135deg,#ede9fe,#fce7f3);border-radius:14px;padding:14px 16px;margin-bottom:16px;">
+      <div style="font-size:13px;font-weight:700;color:#1a1333;margin-bottom:4px;">核心优势组合：${profileLabel}</div>
+      <div style="font-size:12px;color:#6b7280;">三份测试数据：盖洛普 TOP5「${strProfile}」· 霍兰德 ${hTop3.join('')}组合 · MBTI ${mbtiType}</div>
+    </div>
+    ${buildStrengthInsights()}
+  </div>
+
+  <div class="rcard">
+    <h3>💼 适合的职业方向</h3>
+    <div style="font-size:12px;color:#7c6fa0;margin-bottom:12px;">结合 <strong>${HI[hTop].name}兴趣</strong> + <strong>${DN[mainDomain]}优势</strong> + <strong>${mbtiType}</strong>，职业甜区在：「${hTop==='A'?'有美感+有系统+有人':hTop==='S'?'帮助人+有温度+可见成长':hTop==='I'?'有深度+有逻辑+可探索':hTop==='E'?'有挑战+有影响力+能做主':hTop==='C'?'有规范+有精确性+可预测':'有成果+可操作+能看见变化'}」的工作场景</div>
+    ${buildCareerTable()}
+  </div>
+
+  <div class="rcard">
+    <h3>🧬 霍兰德 × MBTI 联合解读</h3>
+    ${buildHollandMbtiNote()}
+  </div>
+
+  <div class="rcard">
+    <h3>⚠️ 需要留意的盲区</h3>
+    ${buildBlindspot()}
+  </div>
+
+  <div style="text-align:center;padding:20px;font-size:11px;color:#c4b5fd;">「一个身怀绝技的神秘大美人🌙 」制作 · 仅供娱乐参考</div>`;
+}
+
+// 初始化
+showOnly('home');
+updateHomeStatus();
+</script>
+</body>
+</html>
